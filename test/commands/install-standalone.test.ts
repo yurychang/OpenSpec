@@ -41,24 +41,24 @@ describe('openspec install', () => {
   });
 
   describe('removeCommandFor', () => {
-    const global = (packageManager: string | null, location = '/usr/lib/node_modules/@fission-ai/openspec') =>
+    const global = (packageManager: string | null, location = '/usr/lib/node_modules/@yurychang/openspec') =>
       ({ location, packageManager, scope: 'global' }) as Parameters<typeof removeCommandFor>[0];
 
     it('names the uninstall command of the package manager that owns the copy', () => {
-      expect(removeCommandFor(global('npm'))).toBe('npm uninstall -g @fission-ai/openspec');
-      expect(removeCommandFor(global('pnpm'))).toBe('pnpm remove -g @fission-ai/openspec');
-      expect(removeCommandFor(global('yarn'))).toBe('yarn global remove @fission-ai/openspec');
-      expect(removeCommandFor(global('bun'))).toBe('bun remove -g @fission-ai/openspec');
-      expect(removeCommandFor(global('volta'))).toBe('volta uninstall @fission-ai/openspec');
+      expect(removeCommandFor(global('npm'))).toBe('npm uninstall -g @yurychang/openspec');
+      expect(removeCommandFor(global('pnpm'))).toBe('pnpm remove -g @yurychang/openspec');
+      expect(removeCommandFor(global('yarn'))).toBe('yarn global remove @yurychang/openspec');
+      expect(removeCommandFor(global('bun'))).toBe('bun remove -g @yurychang/openspec');
+      expect(removeCommandFor(global('volta'))).toBe('volta uninstall @yurychang/openspec');
     });
 
     it('sends the Homebrew formula to brew', () => {
-      const cellar = '/opt/homebrew/Cellar/openspec/1.14.3/libexec/lib/node_modules/@fission-ai/openspec';
-      expect(removeCommandFor(global('npm', cellar))).toBe('brew uninstall openspec');
+      const cellar = '/opt/homebrew/Cellar/openspec/1.14.3/libexec/lib/node_modules/@yurychang/openspec';
+      expect(removeCommandFor(global('npm', cellar))).toBe('brew uninstall yurychang/openspec/openspec');
     });
 
     it('suggests nothing for copies that are not a global install', () => {
-      expect(removeCommandFor({ location: '/p/node_modules/@fission-ai/openspec', packageManager: 'npm', scope: 'project' })).toBeNull();
+      expect(removeCommandFor({ location: '/p/node_modules/@yurychang/openspec', packageManager: 'npm', scope: 'project' })).toBeNull();
       expect(removeCommandFor({ location: '/repo', packageManager: null, scope: 'source' })).toBeNull();
       expect(removeCommandFor({ location: null, packageManager: null, scope: 'standalone' })).toBeNull();
     });
@@ -99,7 +99,7 @@ describe('openspec install', () => {
 
   describe('installerBase', () => {
     it('takes the installer from main, which always has it, unless a mirror is set', () => {
-      expect(installerBase({})).toBe('https://raw.githubusercontent.com/Fission-AI/OpenSpec/main/scripts/binary');
+      expect(installerBase({})).toBe('https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary');
       expect(installerBase({ OPENSPEC_DOWNLOAD_URL: 'http://127.0.0.1:8765/' })).toBe('http://127.0.0.1:8765');
     });
 

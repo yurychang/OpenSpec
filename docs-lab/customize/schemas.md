@@ -159,7 +159,7 @@ Sharing a schema means copying its folder.
 
 - **With your team**: commit `openspec/schemas/` and everyone on the repo uses it.
 - **Across your projects**: put the folder in the user-level directory from [Where schemas live](#where-schemas-live).
-- **From the community**: the [community catalog](https://github.com/Fission-AI/OpenSpec/blob/main/docs/customization.md#community-schemas) lists shared schemas. Copy one into `openspec/schemas/<name>` and it works like your own.
+- **From the community**: the [community catalog](https://github.com/yurychang/OpenSpec/blob/main/docs/customization.md#community-schemas) lists shared schemas. Copy one into `openspec/schemas/<name>` and it works like your own.
 
 We're working on a schema registry, public and private, so schemas can be installed by name instead of copied by hand.
 

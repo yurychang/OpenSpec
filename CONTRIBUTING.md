@@ -6,7 +6,7 @@ Every contribution starts with a GitHub issue. We discuss the problem there, and
 
 ## 1. Open an issue
 
-[Pick a form](https://github.com/Fission-AI/OpenSpec/issues/new/choose): bug, feature, or docs.
+[Pick a form](https://github.com/yurychang/OpenSpec/issues/new/choose): bug, feature, or docs.
 
 - **Bug:** what you were trying to do, what happened, what you expected, and the shortest steps that reproduce it from a fresh project. Error messages, logs, and a minimal example help most. We can't fix what we can't reproduce.
 - **Agent behavior:** say which agent and model you used, and attach a session trace if you have one. Which files the agent read, which tools it called, and whether the behavior repeats across sessions is usually what narrows it down.
@@ -34,6 +34,8 @@ Opening pull requests is limited to maintainers, so wait for an invitation on th
 2. **Implementation:** after the proposal merges, the code plus updates to that change, such as checking off its `tasks.md`. Write `Closes #123`.
 
 ## Development setup
+
+This fork's release and upstream sync instructions are in [FORK.md](FORK.md). Use `@yurychang/openspec` in new changesets.
 
 You need Node 22.12+ and pnpm.
 

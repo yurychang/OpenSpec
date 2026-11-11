@@ -51,7 +51,7 @@ Establishes why the change is needed.
 
 ### Structure
 
-The template the agent receives as the output format ([templates/proposal.md](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/templates/proposal.md)):
+The template the agent receives as the output format ([templates/proposal.md](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/templates/proposal.md)):
 
 ```md
 # Proposal
@@ -92,7 +92,7 @@ The template the agent receives as the output format ([templates/proposal.md](ht
 
 ### Instructions
 
-The instruction sent to the agent when it drafts this artifact (from [schema.yaml](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
+The instruction sent to the agent when it drafts this artifact (from [schema.yaml](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
 
 ```md
 Create the proposal document that establishes WHY this change is needed.
@@ -143,7 +143,7 @@ Each delta spec is the `spec.md` inside its capability folder. `openspec validat
 
 ### Structure
 
-The template the agent receives as the output format ([templates/spec.md](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/templates/spec.md)):
+The template the agent receives as the output format ([templates/spec.md](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/templates/spec.md)):
 
 ```md
 # Spec Delta
@@ -163,7 +163,7 @@ The template the agent receives as the output format ([templates/spec.md](https:
 
 ### Instructions
 
-The instruction sent to the agent when it drafts this artifact (from [schema.yaml](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
+The instruction sent to the agent when it drafts this artifact (from [schema.yaml](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
 
 ````md
 Create specification files that define WHAT the system should do.
@@ -280,7 +280,7 @@ Explains how to implement the change. Drafted only when the change needs one.
 
 ### Structure
 
-The template the agent receives as the output format ([templates/design.md](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/templates/design.md)):
+The template the agent receives as the output format ([templates/design.md](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/templates/design.md)):
 
 ```md
 # Design
@@ -308,7 +308,7 @@ The template the agent receives as the output format ([templates/design.md](http
 
 ### Instructions
 
-The instruction sent to the agent when it drafts this artifact (from [schema.yaml](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
+The instruction sent to the agent when it drafts this artifact (from [schema.yaml](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
 
 ```md
 Create the design document that explains HOW to implement the change.
@@ -346,7 +346,7 @@ Breaks the implementation into checkable tasks. [apply](#apply) tracks progress 
 
 ### Structure
 
-The template the agent receives as the output format ([templates/tasks.md](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/templates/tasks.md)):
+The template the agent receives as the output format ([templates/tasks.md](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/templates/tasks.md)):
 
 ```md
 # Tasks
@@ -364,7 +364,7 @@ The template the agent receives as the output format ([templates/tasks.md](https
 
 ### Instructions
 
-The instruction sent to the agent when it drafts this artifact (from [schema.yaml](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
+The instruction sent to the agent when it drafts this artifact (from [schema.yaml](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
 
 ````md
 Create the task list that breaks down the implementation work.
@@ -439,7 +439,7 @@ The handoff from planning to implementation. Apply is the phase that works throu
 
 ### Settings
 
-The apply settings (from [schema.yaml](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
+The apply settings (from [schema.yaml](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
 
 ```yaml
 apply:
@@ -450,7 +450,7 @@ apply:
 
 ### Instructions
 
-The instruction sent to the agent when implementation starts (from [schema.yaml](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
+The instruction sent to the agent when implementation starts (from [schema.yaml](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/schema.yaml)):
 
 ```md
 Read context files, work through pending tasks, mark complete as you go.
@@ -459,7 +459,7 @@ Pause if you hit blockers or need clarification.
 
 ## schema.yaml
 
-The complete [schema.yaml](https://github.com/Fission-AI/OpenSpec/blob/main/schemas/spec-driven/schema.yaml), with instruction bodies elided. Each is shown in full in its section above.
+The complete [schema.yaml](https://github.com/yurychang/OpenSpec/blob/main/schemas/spec-driven/schema.yaml), with instruction bodies elided. Each is shown in full in its section above.
 
 ```yaml
 name: spec-driven

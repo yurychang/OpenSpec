@@ -99,7 +99,7 @@ That second one matters more than it looks. OpenSpec has two halves: a command l
 ## The thirty-second version
 
 ```text
-1. Install        curl -fsSL https://raw.githubusercontent.com/Fission-AI/OpenSpec/main/scripts/binary/install.sh | sh
+1. Install        curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | sh
 2. Initialize     cd your-project && openspec init
 3. Explore        (in your AI chat)  /opsx:explore           ← optional, but a great habit
 4. Propose        (in your AI chat)  /opsx:propose add-dark-mode
@@ -112,7 +112,7 @@ Steps 1 and 2 happen in your terminal (for Windows or npm, see [Installation](in
 ## Where else to get help
 
 - **Discord:** [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC) for questions, ideas, and help.
-- **GitHub Issues:** [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues) for bugs and feature requests.
+- **GitHub Issues:** [github.com/yurychang/OpenSpec/issues](https://github.com/yurychang/OpenSpec/issues) for bugs and feature requests.
 - **`openspec feedback "your message"`** sends feedback straight from your terminal (it opens a GitHub issue).
 
-Found something in these docs that's wrong, stale, or confusing? That's a bug — open a [docs issue](https://github.com/Fission-AI/OpenSpec/issues/new?template=docs.yml).
+Found something in these docs that's wrong, stale, or confusing? That's a bug — open a [docs issue](https://github.com/yurychang/OpenSpec/issues/new?template=docs.yml).

@@ -30,6 +30,8 @@ OPSX (fluid actions):
 
 ## Workflow at a Glance
 
+To complete planning and implementation together, explicitly run `/opsx:auto [change-name]` in your AI chat. It checks progress first and reports any unfinished exploration. Once the scope is settled, it creates missing required artifacts and applies unfinished tasks. It does not archive automatically. See [the command reference](commands.md#opsxauto).
+
 The default workflow stays fluid: exploration and verification are optional, and
 you can update planning artifacts whenever implementation reveals something new.
 

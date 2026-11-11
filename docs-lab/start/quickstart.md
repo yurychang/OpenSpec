@@ -171,6 +171,16 @@ Git is a separate concern. Commit the change folder with the code, and nothing e
 
 OpenSpec does not prune archived changes automatically or provide a retention setting.
 
+## Complete planning and implementation together
+
+When you want the agent to take the remaining steps, explicitly invoke auto in your AI chat:
+
+```text
+openspec auto add-rate-limiting
+```
+
+It checks progress first. If exploration has unresolved material questions, it reports what is settled and what decision is still needed. Otherwise, it completes missing planning artifacts and applies unfinished tasks in the same run. You do not need another apply request. Archiving remains a separate step. See [openspec-auto](../reference/skills.md#openspec-auto).
+
 ## Going further
 
 - [Delta specs](../reference/schemas/spec-driven/index.md#delta-specs-specmd): how to write the behavior changes in a delta spec.

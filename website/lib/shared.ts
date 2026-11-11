@@ -14,7 +14,7 @@ export const docsContentRoute = '/llms.mdx/docs';
 
 // OpenSpec source repository, used for "edit this page" and GitHub links.
 export const gitConfig = {
-  user: 'Fission-AI',
+  user: 'yurychang',
   repo: 'OpenSpec',
   branch: 'main',
 };
@@ -22,6 +22,6 @@ export const gitConfig = {
 export const links = {
   github: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   discord: 'https://discord.gg/YctCnvvshC',
-  npm: 'https://www.npmjs.com/package/@fission-ai/openspec',
+  npm: 'https://www.npmjs.com/package/@yurychang/openspec',
   x: 'https://x.com/0xTab',
 };

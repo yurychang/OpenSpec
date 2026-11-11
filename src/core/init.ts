@@ -113,6 +113,7 @@ const PROGRESS_SPINNER = {
 };
 
 const WORKFLOW_TO_SKILL_DIR: Record<string, string> = {
+  'auto': 'openspec-auto',
   'explore': 'openspec-explore',
   'new': 'openspec-new-change',
   'continue': 'openspec-continue-change',
@@ -1480,8 +1481,8 @@ export class InitCommand {
 
     // Links
     console.log();
-    console.log(`Learn more: ${chalk.cyan('https://github.com/Fission-AI/OpenSpec')}`);
-    console.log(`Feedback:   ${chalk.cyan('https://github.com/Fission-AI/OpenSpec/issues')}`);
+    console.log(`Learn more: ${chalk.cyan('https://github.com/yurychang/OpenSpec')}`);
+    console.log(`Feedback:   ${chalk.cyan('https://github.com/yurychang/OpenSpec/issues')}`);
 
     // Restart instruction for successfully configured IDE/editor-resident tools
     // with a supported surface under the active delivery. The rule and wording live in

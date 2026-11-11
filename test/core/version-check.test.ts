@@ -168,7 +168,7 @@ describe('getAvailableCliUpdate', () => {
 
     expect(requests).toHaveLength(1);
     expect(requests[0].method).toBe('GET');
-    expect(requests[0].url).toBe('/@fission-ai/openspec/latest');
+    expect(requests[0].url).toBe('/@yurychang/openspec/latest');
     // npm serves application/vnd.npm.install-v1+json only on the full
     // packument; asking for it here returns 406 and silently disables the
     // whole check.
@@ -198,7 +198,7 @@ describe('getAvailableCliUpdate', () => {
     respond = (res) => {
       hop += 1;
       if (hop === 1) {
-        res.writeHead(302, { location: '/elsewhere/@fission-ai/openspec/latest' });
+        res.writeHead(302, { location: '/elsewhere/@yurychang/openspec/latest' });
         res.end();
         return;
       }
@@ -207,7 +207,7 @@ describe('getAvailableCliUpdate', () => {
     };
 
     await expect(getAvailableCliUpdate()).resolves.toBe(bumpMajor(OPENSPEC_VERSION));
-    expect(requests[1].url).toBe('/elsewhere/@fission-ai/openspec/latest');
+    expect(requests[1].url).toBe('/elsewhere/@yurychang/openspec/latest');
   });
 
   it('refuses a redirect that leaves TLS', async () => {
@@ -229,7 +229,7 @@ describe('getAvailableCliUpdate', () => {
       for (const location of [
         // The cleartext metadata service the hostile-.npmrc path aims for.
         'http://169.254.169.254/latest/meta-data/',
-        'http://127.0.0.1:1/@fission-ai/openspec/latest',
+        'http://127.0.0.1:1/@yurychang/openspec/latest',
       ]) {
         requests = [];
         respond = (res) => {
@@ -297,7 +297,7 @@ describe('getAvailableCliUpdate', () => {
     respond = (res) => {
       hop += 1;
       if (hop === 1) {
-        res.writeHead(302, { location: '/mirror/@fission-ai/openspec/latest' });
+        res.writeHead(302, { location: '/mirror/@yurychang/openspec/latest' });
         res.end();
         return;
       }
@@ -521,10 +521,10 @@ describe('getAvailableCliUpdate', () => {
       vi.spyOn(process, 'cwd').mockReturnValue(home);
       delete process.env.npm_config_registry;
 
-      expect(registryUrl()).toBe('https://registry.npmjs.org/@fission-ai/openspec/latest');
+      expect(registryUrl()).toBe('https://registry.npmjs.org/@yurychang/openspec/latest');
 
       process.env.npm_config_registry = 'https://env.example.com';
-      expect(registryUrl()).toBe('https://env.example.com/@fission-ai/openspec/latest');
+      expect(registryUrl()).toBe('https://env.example.com/@yurychang/openspec/latest');
     } finally {
       fs.rmSync(home, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
     }
@@ -552,10 +552,10 @@ describe('getAvailableCliUpdate', () => {
     }
 
     delete process.env.npm_config_registry;
-    expect(registryUrl()).toBe('https://registry.npmjs.org/@fission-ai/openspec/latest');
+    expect(registryUrl()).toBe('https://registry.npmjs.org/@yurychang/openspec/latest');
 
     process.env.npm_config_registry = 'https://npm.internal.example.com/';
-    expect(registryUrl()).toBe('https://npm.internal.example.com/@fission-ai/openspec/latest');
+    expect(registryUrl()).toBe('https://npm.internal.example.com/@yurychang/openspec/latest');
   });
 
   it('reports a rejected registry as disabled without making a request', async () => {
@@ -569,7 +569,7 @@ describe('getAvailableCliUpdate', () => {
 describe('getCliInstallInfo', () => {
   it('reports known global package managers and their update commands', () => {
     const cases: Array<[string, string]> = [
-      [path.join(npmGlobalRoots()[0], '@fission-ai', 'openspec'), 'npm'],
+      [path.join(npmGlobalRoots()[0], '@yurychang', 'openspec'), 'npm'],
       [path.join(HOME_ROOT, 'Library', 'pnpm', 'global', '5', 'node_modules', 'pkg'), 'pnpm'],
       [path.join(HOME_ROOT, '.bun', 'install', 'global', 'node_modules', 'pkg'), 'bun'],
       [path.join(HOME_ROOT, '.volta', 'tools', 'image', 'packages', 'x', 'pkg'), 'volta'],
@@ -582,7 +582,7 @@ describe('getCliInstallInfo', () => {
     for (const [installDir, packageManager] of cases) {
       const install = getCliInstallInfo(installDir, PROJECT_ROOT);
       expect(install).toEqual({ location: installDir, packageManager, scope: 'global' });
-      expect(getCliUpdateCommand(install)).toContain('@fission-ai/openspec@latest');
+      expect(getCliUpdateCommand(install)).toContain('@yurychang/openspec@latest');
     }
   });
 
@@ -591,9 +591,9 @@ describe('getCliInstallInfo', () => {
       PROJECT_ROOT,
       'node_modules',
       '.pnpm',
-      '@fission-ai+openspec',
+      '@yurychang+openspec',
       'node_modules',
-      '@fission-ai',
+      '@yurychang',
       'openspec'
     );
     const temporaryInstall = path.join(
@@ -602,7 +602,7 @@ describe('getCliInstallInfo', () => {
       '_npx',
       'abc',
       'node_modules',
-      '@fission-ai',
+      '@yurychang',
       'openspec'
     );
 
@@ -636,7 +636,7 @@ describe('getCliInstallInfo', () => {
       fs.rmSync(clone, { recursive: true, force: true });
     }
 
-    const unknown = path.join(HOME_ROOT, 'portable', '@fission-ai', 'openspec');
+    const unknown = path.join(HOME_ROOT, 'portable', '@yurychang', 'openspec');
     expect(getCliInstallInfo(unknown, PROJECT_ROOT)).toEqual({
       location: unknown,
       packageManager: null,
@@ -655,9 +655,9 @@ describe('getCliInstallInfo', () => {
     const relativeInstall = path.join(
       'node_modules',
       '.pnpm',
-      '@fission-ai+openspec',
+      '@yurychang+openspec',
       'node_modules',
-      '@fission-ai',
+      '@yurychang',
       'openspec'
     );
     const realInstall = path.join(realProject, relativeInstall);
@@ -685,7 +685,7 @@ describe('getCliInstallInfo', () => {
       'projects',
       'global',
       'node_modules',
-      '@fission-ai',
+      '@yurychang',
       'openspec'
     );
 
@@ -699,7 +699,7 @@ describe('getCliInstallInfo', () => {
 
 describe('buildVersionReportLines', () => {
   const globalInstall = {
-    location: '/opt/lib/node_modules/@fission-ai/openspec',
+    location: '/opt/lib/node_modules/@yurychang/openspec',
     packageManager: 'npm' as const,
     scope: 'global' as const,
   };
@@ -713,12 +713,12 @@ describe('buildVersionReportLines', () => {
         '1.13.2',
         globalInstall,
         { status: 'available', latest: '1.14.0' },
-        'npm install -g @fission-ai/openspec@latest'
+        'npm install -g @yurychang/openspec@latest'
       )
     ).toEqual([
       'OpenSpec 1.13.2 (npm, global)',
       'Update available: 1.14.0',
-      '  npm install -g @fission-ai/openspec@latest',
+      '  npm install -g @yurychang/openspec@latest',
     ]);
   });
 
@@ -861,7 +861,7 @@ describe('offerCliUpgrade', () => {
     // npm resolves `npm install -g` against npm_config_registry, which npm may
     // have read from a cloned repository's .npmrc — so a non-default registry
     // may inform the check but must never drive an install prompt.
-    const npmGlobal = path.join(npmGlobalRoots()[0], '@fission-ai', 'openspec');
+    const npmGlobal = path.join(npmGlobalRoots()[0], '@yurychang', 'openspec');
     const base = { installDir: npmGlobal, projectPath: PROJECT_ROOT, interactive: true, stdoutIsTty: true };
     expect(canSelfUpgrade(npmGlobal, PROJECT_ROOT)).toBe(true);
 
@@ -880,7 +880,7 @@ describe('offerCliUpgrade', () => {
 
   it('offers only for an npm-owned global install', () => {
     // Anchored on this machine's real npm root so the case is not fictional.
-    const npmGlobal = path.join(npmGlobalRoots()[0], '@fission-ai', 'openspec');
+    const npmGlobal = path.join(npmGlobalRoots()[0], '@yurychang', 'openspec');
     expect(canSelfUpgrade(npmGlobal, PROJECT_ROOT)).toBe(true);
 
     // `npm install -g` is the only command we run, so anything npm does not
@@ -890,7 +890,7 @@ describe('offerCliUpgrade', () => {
       path.join(HOME_ROOT, '.volta', 'tools', 'image', 'packages', 'x', 'node_modules', 'pkg'),
       path.join(HOME_ROOT, '.bun', 'install', 'global', 'node_modules', 'pkg'),
       path.join(HOME_ROOT, '.npm', '_npx', 'a', 'node_modules', 'pkg'),
-      path.join(PROJECT_ROOT, 'node_modules', '@fission-ai', 'openspec'),
+      path.join(PROJECT_ROOT, 'node_modules', '@yurychang', 'openspec'),
       null,
     ];
     for (const dir of notOurs) {
@@ -899,7 +899,7 @@ describe('offerCliUpgrade', () => {
   });
 
   it('asks only where the answer can be given and acted on', () => {
-    const npmGlobal = path.join(npmGlobalRoots()[0], '@fission-ai', 'openspec');
+    const npmGlobal = path.join(npmGlobalRoots()[0], '@yurychang', 'openspec');
     const base = { installDir: npmGlobal, projectPath: PROJECT_ROOT };
 
     expect(shouldOfferUpgrade({ ...base, interactive: true, stdoutIsTty: true })).toBe(true);
@@ -947,8 +947,8 @@ describe('offerCliUpgrade', () => {
     try {
       const isWindows = process.platform === 'win32';
       const installed = isWindows
-        ? path.join(prefix, 'node_modules', '@fission-ai', 'openspec')
-        : path.join(prefix, 'lib', 'node_modules', '@fission-ai', 'openspec');
+        ? path.join(prefix, 'node_modules', '@yurychang', 'openspec')
+        : path.join(prefix, 'lib', 'node_modules', '@yurychang', 'openspec');
       fs.mkdirSync(installed, { recursive: true });
       if (isWindows) {
         // npm writes the .cmd shim beside node_modules; it is what separates
@@ -972,8 +972,8 @@ describe('offerCliUpgrade', () => {
       const portable = fs.mkdtempSync(path.join(os.tmpdir(), 'openspec-portable-'));
       try {
         const copied = isWindows
-          ? path.join(portable, 'node_modules', '@fission-ai', 'openspec')
-          : path.join(portable, 'lib', 'node_modules', '@fission-ai', 'openspec');
+          ? path.join(portable, 'node_modules', '@yurychang', 'openspec')
+          : path.join(portable, 'lib', 'node_modules', '@yurychang', 'openspec');
         fs.mkdirSync(copied, { recursive: true });
         expect(
           isNpmGlobalInstall(copied, [path.join(GLOBAL_ROOT, 'lib', 'node_modules')])
@@ -998,7 +998,7 @@ describe('offerCliUpgrade', () => {
       '22.0.0',
       'lib',
       'node_modules',
-      '@fission-ai',
+      '@yurychang',
       'openspec'
     );
 
@@ -1027,7 +1027,7 @@ describe('offerCliUpgrade', () => {
   it('recognizes npm global roots without shelling out', () => {
     const roots = [path.join(GLOBAL_ROOT, 'lib', 'node_modules')];
 
-    expect(isNpmGlobalInstall(path.join(roots[0], '@fission-ai', 'openspec'), roots)).toBe(true);
+    expect(isNpmGlobalInstall(path.join(roots[0], '@yurychang', 'openspec'), roots)).toBe(true);
     expect(isNpmGlobalInstall(path.join(GLOBAL_ROOT, 'lib', 'node_modules'), roots)).toBe(false);
     expect(isNpmGlobalInstall(path.join(HOME_ROOT, 'elsewhere', 'pkg'), roots)).toBe(false);
     expect(isNpmGlobalInstall(null, roots)).toBe(false);
@@ -1256,32 +1256,32 @@ describe('displayCliUpdateNote', () => {
     const output = capture(() => displayCliUpdateNote('9.9.9'));
 
     expect(output).toContain(`v${OPENSPEC_VERSION} → v9.9.9`);
-    expect(output).toContain('npm install -g @fission-ai/openspec@latest');
+    expect(output).toContain('npm install -g @yurychang/openspec@latest');
     expect(output).toContain('Then run "openspec update" again');
     expect(output).toContain(`Running from: ${getInstallDir()}`);
   });
 
   it('picks the upgrade command that matches how the CLI was installed', () => {
-    const globalDir = path.join(GLOBAL_ROOT, 'lib', 'node_modules', '@fission-ai', 'openspec');
+    const globalDir = path.join(GLOBAL_ROOT, 'lib', 'node_modules', '@yurychang', 'openspec');
     const globalLines = buildCliUpdateLines('9.9.9', globalDir, PROJECT_ROOT).join('\n');
-    expect(globalLines).toContain('npm install -g @fission-ai/openspec@latest');
+    expect(globalLines).toContain('npm install -g @yurychang/openspec@latest');
 
     // Hoisted workspace layout: run from a sub-package, dependency at the root.
     const local = buildCliUpdateLines(
       '9.9.9',
-      path.join(PROJECT_ROOT, 'node_modules', '@fission-ai', 'openspec'),
+      path.join(PROJECT_ROOT, 'node_modules', '@yurychang', 'openspec'),
       path.join(PROJECT_ROOT, 'packages', 'app')
     ).join('\n');
     // No npm command: the project's own package manager owns its lockfile.
-    expect(local).toContain('Update the @fission-ai/openspec dependency in this project.');
+    expect(local).toContain('Update the @yurychang/openspec dependency in this project.');
     expect(local).not.toContain('npm install');
 
     const npx = buildCliUpdateLines(
       '9.9.9',
-      path.join(GLOBAL_ROOT, '.npm', '_npx', 'abc123', 'node_modules', '@fission-ai', 'openspec'),
+      path.join(GLOBAL_ROOT, '.npm', '_npx', 'abc123', 'node_modules', '@yurychang', 'openspec'),
       PROJECT_ROOT
     ).join('\n');
-    expect(npx).toContain('npx @fission-ai/openspec@latest update');
+    expect(npx).toContain('npx @yurychang/openspec@latest update');
     expect(npx).not.toContain('npm install -g');
   });
 
@@ -1292,7 +1292,7 @@ describe('displayCliUpdateNote', () => {
   });
 
   it('recognizes project-local installs from any directory under the project', () => {
-    const local = path.join(PROJECT_ROOT, 'node_modules', '@fission-ai', 'openspec');
+    const local = path.join(PROJECT_ROOT, 'node_modules', '@yurychang', 'openspec');
 
     expect(isProjectLocalInstall(local, PROJECT_ROOT)).toBe(true);
     // Workspace sub-package with a hoisted root node_modules.
@@ -1307,7 +1307,7 @@ describe('displayCliUpdateNote', () => {
 
     expect(
       isProjectLocalInstall(
-        path.join(GLOBAL_ROOT, 'lib', 'node_modules', '@fission-ai', 'openspec'),
+        path.join(GLOBAL_ROOT, 'lib', 'node_modules', '@yurychang', 'openspec'),
         PROJECT_ROOT
       )
     ).toBe(false);
@@ -1339,7 +1339,7 @@ describe('displayCliUpdateNote', () => {
       path.join(HOME_ROOT, '.npm', '_npx', 'abc', 'node_modules', 'pkg'),
       PROJECT_ROOT
     );
-    expect(npx).toEqual(['  npx @fission-ai/openspec@latest update']);
+    expect(npx).toEqual(['  npx @yurychang/openspec@latest update']);
 
     // Every other flavor does need the second pass.
     expect(buildUpgradeCommandLines(path.join(GLOBAL_ROOT, 'lib', 'node_modules', 'pkg'), PROJECT_ROOT))
@@ -1383,7 +1383,7 @@ describe('displayCliUpdateNote', () => {
     ).toBe(true);
     expect(
       isEphemeralRunnerInstall(
-        path.join(GLOBAL_ROOT, 'lib', 'node_modules', '@fission-ai', 'openspec')
+        path.join(GLOBAL_ROOT, 'lib', 'node_modules', '@yurychang', 'openspec')
       )
     ).toBe(false);
     expect(
@@ -1477,7 +1477,7 @@ describe('standalone update check', () => {
     'OPENSPEC_TELEMETRY',
     'npm_config_registry',
   ] as const;
-  const RELEASES = '/Fission-AI/OpenSpec/releases';
+  const RELEASES = '/yurychang/OpenSpec/releases';
 
   let server: http.Server;
   let requests: string[];
@@ -1519,7 +1519,7 @@ describe('standalone update check', () => {
     requests = [];
     routes = {
       // npm already has a newer version: the window the issue is about.
-      '/@fission-ai/openspec/latest': (res) => {
+      '/@yurychang/openspec/latest': (res) => {
         res.writeHead(200, { 'content-type': 'application/json' });
         res.end(JSON.stringify({ version: bumpMajor(OPENSPEC_VERSION) }));
       },
@@ -1578,7 +1578,7 @@ describe('standalone update check', () => {
     await expect(checkForCliUpdate()).resolves.toEqual({ status: 'available', latest: ready });
     // The redirect to the file is not followed: knowing it exists is enough.
     expect(requests).not.toContain('/storage/SHA256SUMS');
-    expect(requests).not.toContain('/@fission-ai/openspec/latest');
+    expect(requests).not.toContain('/@yurychang/openspec/latest');
   });
 
   it('offers a complete newer release', async () => {

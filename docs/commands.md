@@ -17,6 +17,7 @@ for your tool. The files OpenSpec generates already use the right form.
 |---------|---------|
 | `/opsx:propose` | Create a change and generate planning artifacts in one step |
 | `/opsx:explore` | Think through ideas before committing to a change |
+| `/opsx:auto` | Check progress and complete planning and implementation when exploration is settled |
 | `/opsx:apply` | Implement tasks from the change |
 | `/opsx:update` | Revise a change's planning artifacts and keep them coherent |
 | `/opsx:sync` | Merge delta specs into main specs |
@@ -38,6 +39,20 @@ The default global profile is `core`. To enable expanded workflow commands, run 
 ---
 
 ## Command Reference
+
+### `/opsx:auto`
+
+In your AI chat:
+
+```text
+/opsx:auto [change-name]
+```
+
+Checks the conversation, existing change artifacts, and task progress first. If exploration still has a material open question, it briefly reports the current stage, settled decisions, and what is needed next, then stops without writing.
+
+When exploration is settled or planning has advanced, it creates missing required planning artifacts and continues directly into apply. Existing artifacts and completed tasks are preserved. Invoking auto explicitly authorizes planning and implementation in the same run. It stops on blockers and does not archive automatically. The separate `/opsx:propose` command still stops after planning.
+
+With multiple plausible changes, it asks you to choose. Exploration has no persisted CLI completion flag; the agent checks the conversation and artifacts instead. See the [skill contract](../docs-lab/reference/skills.md#openspec-auto).
 
 ### `/opsx:propose`
 

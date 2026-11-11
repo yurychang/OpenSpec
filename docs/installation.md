@@ -1,5 +1,7 @@
 # Installation
 
+These commands install `yurychang/OpenSpec`. See the [current installation guide](../docs-lab/start/installation.md) for fork release prerequisites, Homebrew HEAD, source builds, and migration from upstream.
+
 ## Install
 
 OpenSpec is a single file. It needs no Node.js or anything else (on Alpine Linux, first run `apk add libstdc++ libgcc`).
@@ -7,25 +9,25 @@ OpenSpec is a single file. It needs no Node.js or anything else (on Alpine Linux
 macOS and Linux:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Fission-AI/OpenSpec/main/scripts/binary/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | sh
 ```
 
 Windows (PowerShell):
 
 ```powershell
-irm https://raw.githubusercontent.com/Fission-AI/OpenSpec/main/scripts/binary/install.ps1 | iex
+irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 ```
 
-The installer picks the newest release whose files are all attached and the right file for your machine, checks it against the release's `SHA256SUMS`, and installs it to `~/.local/bin` (Windows: `%LOCALAPPDATA%\Programs\openspec`, added to your user `PATH`). Set `OPENSPEC_INSTALL_DIR` to choose another folder, or `OPENSPEC_VERSION=v1.15.0` to pin a release. Prefer npm or another package manager? See [Package Managers](#package-managers).
+The installer picks the newest release whose files are all attached and the right file for your machine, checks it against the release's `SHA256SUMS`, and installs it to `~/.local/bin` (Windows: `%LOCALAPPDATA%\Programs\openspec`, added to your user `PATH`). Set `OPENSPEC_INSTALL_DIR` to choose another folder, or `OPENSPEC_VERSION=v1.18.0` to pin a release. Prefer npm or another package manager? See [Package Managers](#package-managers).
 
-To install by hand, download your platform's file from the [latest release](https://github.com/Fission-AI/OpenSpec/releases/latest), rename it to `openspec` (`openspec.exe` on Windows), make it executable on macOS and Linux (`chmod +x openspec`), and put it on your `PATH`:
+To install by hand, download your platform's file from the [latest release](https://github.com/yurychang/OpenSpec/releases/latest), unpack the archive to get `openspec` (`openspec.exe` on Windows), make it executable on macOS and Linux (`chmod +x openspec`), and put it on your `PATH`:
 
 | Platform | File |
 |---|---|
-| macOS 13+ (Apple Silicon / Intel) | `openspec-darwin-arm64` / `openspec-darwin-x64` |
-| Linux (glibc 2.17+) | `openspec-linux-x64` / `openspec-linux-arm64` |
-| Alpine 3.17+ (needs `apk add libstdc++ libgcc`) | `openspec-linux-x64-musl` / `openspec-linux-arm64-musl` |
-| Windows 10+ | `openspec-windows-x64.exe` / `openspec-windows-arm64.exe` |
+| macOS 13+ (Apple Silicon / Intel) | `openspec-darwin-arm64.tar.gz` / `openspec-darwin-x64.tar.gz` |
+| Linux (glibc 2.17+) | `openspec-linux-x64.tar.gz` / `openspec-linux-arm64.tar.gz` |
+| Alpine 3.17+ (needs `apk add libstdc++ libgcc`) | `openspec-linux-x64-musl.tar.gz` / `openspec-linux-arm64-musl.tar.gz` |
+| Windows 10+ | `openspec-windows-x64.zip` / `openspec-windows-arm64.zip` |
 
 On macOS, a file downloaded with a browser is blocked until you run `xattr -d com.apple.quarantine openspec`; the install script avoids this. On Windows, SmartScreen may warn the first time you run it from Explorer.
 
@@ -36,82 +38,7 @@ Rather not do this by hand? Paste the prompt below into any coding assistant tha
 The manual steps below are the source of truth — the prompt just runs them for you. If your assistant stops and hands something back, that's by design: it asks before anything privileged and never edits your shell startup files. Finish those bits yourself with [Install](#install) and [Troubleshooting](troubleshooting.md).
 
 ```text
-Install OpenSpec in this project and set it up for me. Follow these steps in
-order, and stop where a step tells you to stop.
-
-1. INSTALL. Run `openspec --version` first. If it prints a version, OpenSpec is
-   already installed: run `openspec version --check`, which prints the update
-   command for how it was installed when it can tell (otherwise update it the
-   way it was installed, e.g. `brew upgrade openspec`), offer to run that, and
-   skip to step 3. If I installed it with a package manager, mention once that
-   `openspec install` switches to the standalone install, but only switch if I
-   ask; never switch it to a different install method on your own. Otherwise install
-   the standalone OpenSpec binary, which needs no Node.js. Show me the command
-   for my OS and run it only once I confirm, then skip to step 3:
-     macOS / Linux:        curl -fsSL https://raw.githubusercontent.com/Fission-AI/OpenSpec/main/scripts/binary/install.sh | sh
-     Windows (PowerShell): irm https://raw.githubusercontent.com/Fission-AI/OpenSpec/main/scripts/binary/install.ps1 | iex
-   If I'd rather use a package manager, or the installer fails, go to step 2.
-
-2. PACKAGE MANAGER (only if step 1 did not install it). Run `node --version`:
-   this needs Node.js 22.12.0 or higher. If Node is missing or older, say so and
-   stop — don't install Node, switch versions, or reconfigure my version
-   manager for me. Otherwise use whichever package manager is already on my
-   PATH, preferring npm:
-     npm install -g @fission-ai/openspec@latest
-     pnpm add -g @fission-ai/openspec@latest
-     bun add -g @fission-ai/openspec@latest
-     yarn global add @fission-ai/openspec@latest   (Yarn 1.x only)
-   Don't pick based on this project's lockfile — a global install has nothing to
-   do with how this repo's own dependencies are installed. If none of those four
-   is available, stop and tell me — don't improvise an install. (If I'm on Nix,
-   point me at the Nix section of the OpenSpec installation docs instead.)
-   Show me the exact command and let me confirm before you run it; this installs
-   software outside the project, and I may want a different package manager to
-   own it.
-   Stop and ask me again if the install needs sudo or admin rights, fails with a
-   permissions error, or reports that its global bin directory is missing or
-   unconfigured. Never edit my shell startup files (.bashrc, .zshrc, .profile,
-   fish, PowerShell profile), and never run a setup command that edits them for
-   me — show me the change and let me make it.
-
-3. PATH. Run `openspec --version`. If the command isn't found, it may just be
-   missing from this shell: tell me where it was installed (the standalone
-   installer prints the folder, ~/.local/bin by default; a package manager has
-   its own global bin folder) and how to add that folder to PATH for my shell
-   and OS, then stop until I confirm. On Windows the standalone installer adds
-   it for me; a new terminal picks it up. If it prints an older version than the one the install just
-   reported, an earlier copy is shadowing it on PATH — tell me both versions
-   instead of continuing. If I use a version manager, say so rather than editing
-   PATH around it: with nvm or fnm the CLI is tied to the Node version that was
-   active when you installed it, and with asdf or volta a shim may need
-   regenerating.
-
-4. INITIALIZE. Ask me which AI coding tool or tools I use and map each to an id
-   from `openspec init --help` (Copilot is `github-copilot`, Zoo Code is
-   `roocode`). `--tools` takes a comma-separated list, so name all of them.
-   `openspec init --tools <ids>` deletes leftovers from older OpenSpec versions
-   automatically, without asking — including `opsx-*.md` prompt files in my home
-   directory (Codex keeps them in ~/.codex/prompts). Before you run it, look for
-   those: `.../commands/openspec/` folders, OpenSpec marker blocks in files like
-   CLAUDE.md or AGENTS.md, and home-directory `opsx-*.md` prompts. List whatever
-   you find and wait for my go-ahead; if you find nothing, say so and carry on
-   without asking. An existing `openspec/` folder is not a problem — init
-   refreshes it and leaves my specs and changes alone.
-   Confirm I'm in the right folder too: init creates `openspec/` wherever it
-   runs, including inside a monorepo package.
-   Then run: openspec init --tools <ids>
-
-5. REPORT. Don't assume what should exist — tell me what init actually printed:
-   how many skills and/or commands it created and where, the config file line,
-   any "Setup required" note, and what to restart or reload. Some tools are
-   skills-only and correctly create zero command files, so missing commands is
-   not a failure on its own. If init said nothing was generated, relay the fix
-   it suggested instead of retrying. Finish by telling me how to invoke OpenSpec
-   in my tool, and take the exact spelling from the files init created rather
-   than from its summary line: the punctuation differs per tool (/opsx:propose
-   in some, /opsx-propose in others, @opsx-propose in Amazon Q), and tools that
-   get skills instead of commands are invoked by skill name (/openspec-propose,
-   or $openspec-propose in Codex, or /skill:openspec-propose in Kimi Code).
+Fetch https://raw.githubusercontent.com/yurychang/OpenSpec/main/install.md and follow it.
 ```
 
 Nothing in the prompt is vendor-specific: it's plain instructions plus the same commands documented on this page. It works on macOS, Linux, and Windows, and it deliberately stops rather than improvising when a step needs your permission. Your assistant does need to be able to run shell commands — a few IDE integrations can't.
@@ -123,19 +50,19 @@ Installing with a package manager needs **Node.js 22.12.0 or higher** (check wit
 ### npm
 
 ```bash
-npm install -g @fission-ai/openspec@latest
+npm install -g @yurychang/openspec@latest
 ```
 
 ### pnpm
 
 ```bash
-pnpm add -g @fission-ai/openspec@latest
+pnpm add -g @yurychang/openspec@latest
 ```
 
 ### yarn
 
 ```bash
-yarn global add @fission-ai/openspec@latest
+yarn global add @yurychang/openspec@latest
 ```
 
 Yarn 2 and later (Berry) removed the `global` command. On those versions, install OpenSpec with npm, pnpm, or bun instead — a global CLI doesn't need to share your project's package manager.
@@ -143,16 +70,16 @@ Yarn 2 and later (Berry) removed the `global` command. On those versions, instal
 ### deno
 
 Deno sometimes has issues parsing the @latest tag, but we can specify a version while installing initially.
-If that happens, you could try to change the @latest tag with the version, something like `@^1.3.1`
+If that happens, use the fork's version range, such as `@^1.18.0`.
 
 ```bash
 deno install --global \
   --allow-read --allow-write --allow-env --allow-sys=cpus,homedir --allow-net=edge.openspec.dev \
-  npm:@fission-ai/openspec@latest
+  npm:@yurychang/openspec@latest
 # or
 deno install --global \
   --allow-read --allow-write --allow-env --allow-sys=cpus,homedir --allow-net=edge.openspec.dev \
-  npm:@fission-ai/openspec@^1.3.1
+  npm:@yurychang/openspec@^1.18.0
 ```
 
 Note: If your subcommands launch external tools, like config edit, feedback, or workspace open, you may need a scoped --allow-run=<program>.
@@ -163,21 +90,32 @@ Bun can install OpenSpec globally, but OpenSpec currently runs on Node.js.
 You still need Node.js 22.12.0 or higher available on `PATH`.
 
 ```bash
-bun add -g @fission-ai/openspec@latest
+bun add -g @yurychang/openspec@latest
 ```
+
+## Homebrew
+
+In your terminal:
+
+```bash
+brew tap --custom-remote yurychang/openspec https://github.com/yurychang/OpenSpec.git
+brew install --HEAD yurychang/openspec/openspec
+```
+
+This builds the fork's `main` branch. Remove an existing upstream formula first with `brew uninstall openspec`. Update with `brew upgrade --fetch-HEAD yurychang/openspec/openspec`.
 
 ## Nix
 
 Run OpenSpec directly without installation:
 
 ```bash
-nix run github:Fission-AI/OpenSpec -- init
+nix run github:yurychang/OpenSpec -- init
 ```
 
 Or install to your profile:
 
 ```bash
-nix profile install github:Fission-AI/OpenSpec
+nix profile install github:yurychang/OpenSpec
 ```
 
 Or add to your development environment in `flake.nix`:
@@ -186,7 +124,7 @@ Or add to your development environment in `flake.nix`:
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    openspec.url = "github:Fission-AI/OpenSpec";
+    openspec.url = "github:yurychang/OpenSpec";
   };
 
   outputs = { nixpkgs, openspec, ... }: {
@@ -208,12 +146,12 @@ openspec --version
 Your settings and projects carry over; only the program changes.
 
 1. Run `openspec install`. It installs the standalone copy and prints the command that removes your old one.
-2. Run that command, for example `npm uninstall -g @fission-ai/openspec` (Homebrew: `brew uninstall openspec`). Until then the old copy keeps running first on your PATH.
+2. Run that command, for example `npm uninstall -g @yurychang/openspec` (Homebrew: `brew uninstall openspec`). Until then the old copy keeps running first on your PATH.
 3. In a new terminal, run `openspec version`. It should print `OpenSpec <version> (standalone)`. If it names a package manager, another copy is still on your PATH: `which -a openspec` (Windows: `where.exe openspec`) lists them.
 
 ## Updating
 
-Upgrade the CLI by running the [install command](#install) again (with a package manager: `npm install -g @fission-ai/openspec@latest` or its pnpm/yarn/bun equivalent). Then refresh each project's generated files:
+Upgrade the CLI by running the [install command](#install) again (with a package manager: `npm install -g @yurychang/openspec@latest` or its pnpm/yarn/bun equivalent). Then refresh each project's generated files:
 
 ```bash
 openspec update   # run inside each project
@@ -228,7 +166,7 @@ There's no `openspec uninstall` command, because OpenSpec is just one program pl
 **1. Remove the CLI.** Delete the file the installer put in place: `~/.local/bin/openspec`, or on Windows `%LOCALAPPDATA%\Programs\openspec\openspec.exe` (and that folder from your user `PATH`). If you installed with a package manager:
 
 ```bash
-npm uninstall -g @fission-ai/openspec   # or: pnpm rm -g / yarn global remove / bun rm -g
+npm uninstall -g @yurychang/openspec   # or: pnpm rm -g / yarn global remove / bun rm -g
 ```
 
 The standalone binary also keeps, when that directory is writable, a copy of its built-in schemas under your OpenSpec data directory (`~/.local/share/openspec/binary-schemas` on macOS and Linux, `%LOCALAPPDATA%\openspec\binary-schemas` on Windows), which you can delete too.

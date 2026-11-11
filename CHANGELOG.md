@@ -1,4 +1,4 @@
-# @fission-ai/openspec
+# @yurychang/openspec
 
 ## 1.17.0
 

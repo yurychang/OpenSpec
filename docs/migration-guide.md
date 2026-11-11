@@ -85,7 +85,7 @@ Don't worry about getting it perfect. We're still learning what works best here,
 
 Both `openspec init` and `openspec update` detect legacy files and guide you through the same cleanup process. Use whichever fits your situation:
 
-- New installs default to profile `core` (`propose`, `explore`, `apply`, `update`, `sync`, `archive`).
+- New installs default to profile `core` (`propose`, `explore`, `auto`, `apply`, `update`, `sync`, `archive`).
 - Migrated installs preserve your previously installed workflows by writing a `custom` profile when needed.
 
 ### Using `openspec init`
@@ -566,6 +566,7 @@ project/
 │   └── skills/                   # NEW: OPSX skills
 │       ├── openspec-propose/     # default core profile
 │       ├── openspec-explore/
+│       ├── openspec-auto/
 │       ├── openspec-apply-change/
 │       ├── openspec-update-change/
 │       ├── openspec-sync-specs/
@@ -586,6 +587,7 @@ project/
 
 ```text
 /opsx:propose      Start quickly (default core profile)
+/opsx:auto         Check progress, then finish planning and implementation
 /opsx:apply        Implement tasks
 /opsx:archive      Finish and archive
 
@@ -600,5 +602,5 @@ project/
 ## Getting Help
 
 - **Discord**: [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC)
-- **GitHub Issues**: [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues)
+- **GitHub Issues**: [github.com/yurychang/OpenSpec/issues](https://github.com/yurychang/OpenSpec/issues)
 - **Documentation**: [docs/opsx.md](opsx.md) for the full OPSX reference

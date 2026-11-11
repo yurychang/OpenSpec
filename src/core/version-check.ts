@@ -339,7 +339,7 @@ async function fetchLatestVersion(): Promise<string | null> {
  * Where `openspec install` gets the standalone binary: install.sh and
  * install.ps1 default to this releases page.
  */
-const RELEASES_URL = 'https://github.com/Fission-AI/OpenSpec/releases';
+const RELEASES_URL = 'https://github.com/yurychang/OpenSpec/releases';
 
 /**
  * The release `openspec install` would install, found the way install.sh and
@@ -697,6 +697,9 @@ export function getCliInstallInfo(
 
 /** Returns a safe update command only for an install with known global ownership. */
 export function getCliUpdateCommand(install: CliInstallInfo): string | null {
+  if (install.location && /[\\/]Cellar[\\/]openspec[\\/]/i.test(install.location)) {
+    return 'brew upgrade --fetch-HEAD yurychang/openspec/openspec';
+  }
   if (install.scope === 'standalone') return standaloneUpgradeCommand();
   if (install.scope !== 'global' || install.packageManager === null) return null;
   return GLOBAL_UPGRADE_COMMANDS[install.packageManager];

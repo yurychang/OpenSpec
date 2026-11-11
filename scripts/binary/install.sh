@@ -1,9 +1,9 @@
 #!/bin/sh
 # Installs the standalone `openspec` binary (no Node.js needed) on Linux or macOS.
 #
-#   curl -fsSL https://openspec.dev/cli/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | sh
 #
-# OPENSPEC_VERSION      release to install (default: the newest complete one), e.g. v1.15.0
+# OPENSPEC_VERSION      release to install (default: the newest complete one), e.g. v1.18.0
 # OPENSPEC_INSTALL_DIR  where to put it (default: ~/.local/bin)
 # OPENSPEC_INSTALL_NAME file name to install as (default: openspec)
 # OPENSPEC_RELEASES_URL releases page to install from (default: GitHub's; mirrors, testing)
@@ -51,7 +51,7 @@ main() {
   case "$(uname -m)" in
     x86_64 | amd64) arch=x64 ;;
     arm64 | aarch64) arch=arm64 ;;
-    *) fail "unsupported CPU $(uname -m). Install with npm instead: npm install -g @fission-ai/openspec" ;;
+    *) fail "unsupported CPU $(uname -m). Install with npm instead: npm install -g @yurychang/openspec" ;;
   esac
   # An x64 shell under Rosetta still runs on an Apple Silicon Mac.
   if [ "$os" = darwin ] && [ "$(sysctl -n sysctl.proc_translated 2>/dev/null || echo 0)" = 1 ]; then
@@ -67,7 +67,7 @@ main() {
 
   version="${OPENSPEC_VERSION:-latest}"
   case "$version" in latest | v*) ;; *) version="v$version" ;; esac
-  releases="${OPENSPEC_RELEASES_URL:-https://github.com/Fission-AI/OpenSpec/releases}"
+  releases="${OPENSPEC_RELEASES_URL:-https://github.com/yurychang/OpenSpec/releases}"
   releases=${releases%/}
   check_source OPENSPEC_RELEASES_URL "$releases"
   if [ -n "${OPENSPEC_DOWNLOAD_URL:-}" ]; then
@@ -108,7 +108,7 @@ main() {
     fi
   }
 
-  npm_hint="or install with npm (Node.js 22.12+): npm install -g @fission-ai/openspec"
+  npm_hint="or install with npm (Node.js 22.12+): npm install -g @yurychang/openspec"
   if [ -n "${OPENSPEC_DOWNLOAD_URL:-}" ]; then
     base=${OPENSPEC_DOWNLOAD_URL%/}
   elif [ "$version" != latest ]; then

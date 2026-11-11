@@ -125,6 +125,7 @@ By default, OpenSpec installs the **core** set of slash commands:
 
 - `/opsx:explore`: think through an idea with the AI before committing to a change (great first step when you're unsure)
 - `/opsx:propose`: create a change and draft all its planning artifacts in one step
+- `/opsx:auto`: check progress, then complete planning and implementation when exploration is settled
 - `/opsx:apply`: build the change by working through its task list
 - `/opsx:update`: revise a change's planning artifacts and keep them coherent
 - `/opsx:sync`: merge a change's spec updates into your main specs (usually automatic)
@@ -143,7 +144,7 @@ For what each command does in detail, see [Commands](commands.md). For when to r
 Putting it together, here is the whole sequence with each step labeled by where it happens.
 
 ```text
-TERMINAL   $ npm install -g @fission-ai/openspec@latest
+TERMINAL   $ npm install -g @yurychang/openspec@latest
 TERMINAL   $ cd your-project
 TERMINAL   $ openspec init
               (installs slash commands into your AI tool)

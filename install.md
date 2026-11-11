@@ -6,6 +6,8 @@ I want you to install OpenSpec and set up my project. Follow the steps below in 
 
 OBJECTIVE: Install the OpenSpec CLI globally and initialize the user's project.
 
+SOURCE: This prompt installs the `yurychang/OpenSpec` fork. Use only its installers, `@yurychang/openspec` npm package, or its source checkout. The upstream `openspec.dev` installer and `brew install openspec` install a different distribution. Before the first fork release, follow the source-checkout commands at https://github.com/yurychang/OpenSpec/blob/main/docs-lab/start/installation.md#from-source after showing them to the user. Do not use a one-step global Git install: npm may omit the build dependencies during prepare.
+
 DONE WHEN:
 
 - `openspec --version` prints a version number
@@ -21,18 +23,20 @@ TODO:
 
 ## 1. Install
 
-Run `openspec --version` first. If it already prints a version, the CLI is installed: say so, run `openspec version --check` (it prints the update command for how OpenSpec was installed when it can tell; otherwise update it the way it was installed, e.g. `brew upgrade openspec`), offer to run that command, and skip ahead to step 3. If it was installed with npm or another package manager, mention once that `openspec install` switches to the standalone install. Only offer it: the user may have chosen npm on purpose, so don't repeat it or switch unless they ask. Never switch an install to a different method on your own; that leaves two copies competing on PATH.
+Run `openspec --version` first. If it prints a version, inspect `openspec version` and its install location before treating it as this fork. A package manifest must name `@yurychang/openspec`; a version number alone cannot identify a standalone binary's publisher. If the source is upstream or unknown, explain that and offer to replace it with this fork using the same install method. Remove the old CLI with its owning package manager before installing the fork, once the user confirms. Preserve their project files and settings. See https://github.com/yurychang/OpenSpec/blob/main/FORK.md for migration steps.
+
+If it is already this fork, run `openspec version --check`, offer the reported update command, and skip to step 3. Homebrew HEAD updates use `brew upgrade --fetch-HEAD yurychang/openspec/openspec`. Never switch install methods without a user request; that leaves two copies competing on PATH.
 
 Install the standalone OpenSpec binary (on Alpine Linux, `apk add libstdc++ libgcc` first). Show the command for the user's OS and run it only once they confirm, then skip to step 3:
 
 ```bash
 # macOS / Linux
-curl -fsSL https://openspec.dev/cli/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | sh
 ```
 
 ```powershell
 # Windows (PowerShell)
-irm https://openspec.dev/cli/install.ps1 | iex
+irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 ```
 
 If the user would rather use a package manager, or the installer fails, continue with step 2.
@@ -44,13 +48,13 @@ Run `node --version`. Installing with a package manager needs Node.js 22.12.0 or
 Use whichever package manager is already on PATH, preferring npm:
 
 ```bash
-npm install -g @fission-ai/openspec@latest
-pnpm add -g @fission-ai/openspec@latest
-bun add --global @fission-ai/openspec@latest
-yarn global add @fission-ai/openspec@latest   # Yarn 1.x only
+npm install -g @yurychang/openspec@latest
+pnpm add -g @yurychang/openspec@latest
+bun add --global @yurychang/openspec@latest
+yarn global add @yurychang/openspec@latest   # Yarn 1.x only
 ```
 
-Don't pick based on this project's lockfile: a global install has nothing to do with how this repo's own dependencies are installed. If none of those four is available, stop and say so; don't improvise an install. (On Nix, point the user at the Nix section of https://openspec.dev/docs/installation instead.)
+Don't pick based on this project's lockfile: a global install has nothing to do with how this repo's own dependencies are installed. If none of those four is available, stop and say so; don't improvise an install. On Nix or Homebrew, use the commands at https://github.com/yurychang/OpenSpec/blob/main/docs-lab/start/installation.md instead.
 
 Show the exact command and get confirmation before running it; this installs software outside the project, and the user may want a different package manager to own it.
 

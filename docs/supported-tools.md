@@ -125,7 +125,7 @@ cannot remove skills used by another project.
 
 GitHub's [Copilot coding agent](https://docs.github.com/en/copilot/using-github-copilot/coding-agent) runs on GitHub in a GitHub Actions environment — separate from Copilot in your editor. OpenSpec can set it up to use the OpenSpec CLI by generating two files:
 
-- `.github/workflows/copilot-setup-steps.yml` — installs `@fission-ai/openspec` in the agent's environment
+- `.github/workflows/copilot-setup-steps.yml` — installs `@yurychang/openspec` in the agent's environment
 - `.github/agents/openspec.agent.md` — tells the agent how to drive OpenSpec
 
 Because this writes a GitHub Actions workflow into your repository, it is **opt-in**:
@@ -225,7 +225,7 @@ openspec init --profile core
 
 OpenSpec installs workflow artifacts based on selected workflows:
 
-- **Core profile (default):** `propose`, `explore`, `apply`, `update`, `sync`, `archive`
+- **Core profile (default):** `propose`, `explore`, `auto`, `apply`, `update`, `sync`, `archive`
 - **Custom selection:** any subset of all workflow IDs:
   `propose`, `explore`, `new`, `continue`, `apply`, `update`, `ff`, `sync`, `archive`, `bulk-archive`, `verify`, `onboard`
 

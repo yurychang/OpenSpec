@@ -66,7 +66,7 @@ Explore to think it through, propose to draft the plan, apply to build it, archi
 
 ### What are `core` and expanded profiles?
 
-A profile decides which slash commands get installed. **Core** (the default) gives you `propose`, `explore`, `apply`, `update`, `sync`, `archive`. The **expanded** set adds `new`, `continue`, `ff`, `verify`, `bulk-archive`, and `onboard` for finer control. Switch with `openspec config profile`, then apply with `openspec update`.
+A profile decides which slash commands get installed. **Core** (the default) gives you `propose`, `explore`, `auto`, `apply`, `update`, `sync`, `archive`. The **expanded** set adds `new`, `continue`, `ff`, `verify`, `bulk-archive`, and `onboard` for finer control. Switch with `openspec config profile`, then apply with `openspec update`.
 
 ### Do I need to run `/opsx:sync`?
 
@@ -136,20 +136,20 @@ It collects anonymous usage stats: command names and version only. No arguments,
 
 ### How do I upgrade?
 
-Two steps. Upgrade the package (`npm install -g @fission-ai/openspec@latest`), then run `openspec update` inside each project to refresh the generated skills and commands.
+Two steps. Upgrade the package (`npm install -g @yurychang/openspec@latest`), then run `openspec update` inside each project to refresh the generated skills and commands.
 
 ### How do I uninstall OpenSpec?
 
-There's no uninstall command, because it's just a global package plus files in your project. Remove the package (`npm uninstall -g @fission-ai/openspec`), and optionally delete the `openspec/` directory and the generated tool files. Step-by-step, including what's safe to keep, is in [Installation: Uninstalling](installation.md#uninstalling).
+There's no uninstall command, because it's just a global package plus files in your project. Remove the package (`npm uninstall -g @yurychang/openspec`), and optionally delete the `openspec/` directory and the generated tool files. Step-by-step, including what's safe to keep, is in [Installation: Uninstalling](installation.md#uninstalling).
 
 ## Getting help
 
 ### Where do I ask questions or report bugs?
 
 - **Discord:** [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC)
-- **GitHub Issues:** [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues)
+- **GitHub Issues:** [github.com/yurychang/OpenSpec/issues](https://github.com/yurychang/OpenSpec/issues)
 - **From your terminal:** `openspec feedback "your message"` opens a GitHub issue for you.
 
 ### These docs are wrong or confusing. What do I do?
 
-Tell us. Open a [docs issue](https://github.com/Fission-AI/OpenSpec/issues/new?template=docs.yml) with the page and what is wrong — doc fixes are some of the most useful reports we get.
+Tell us. Open a [docs issue](https://github.com/yurychang/OpenSpec/issues/new?template=docs.yml) with the page and what is wrong — doc fixes are some of the most useful reports we get.

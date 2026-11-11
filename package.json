@@ -1,5 +1,5 @@
 {
-  "name": "@fission-ai/openspec",
+  "name": "@yurychang/openspec",
   "version": "1.17.0",
   "description": "AI-native system for spec-driven development",
   "keywords": [
@@ -9,10 +9,10 @@
     "ai",
     "development"
   ],
-  "homepage": "https://github.com/Fission-AI/OpenSpec",
+  "homepage": "https://github.com/yurychang/OpenSpec",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Fission-AI/OpenSpec"
+    "url": "https://github.com/yurychang/OpenSpec"
   },
   "license": "MIT",
   "author": "OpenSpec Contributors",

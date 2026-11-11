@@ -56,7 +56,7 @@ describe('FeedbackCommand', () => {
 
       setGhProbes();
 
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/123\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/123\n');
 
       await feedbackCommand.execute('Test');
 
@@ -74,7 +74,7 @@ describe('FeedbackCommand', () => {
 
       setGhProbes();
 
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/123\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/123\n');
 
       await feedbackCommand.execute('Test');
 
@@ -87,7 +87,7 @@ describe('FeedbackCommand', () => {
 
     it('probes gh without a shell', async () => {
       setGhProbes();
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/123\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/123\n');
 
       await feedbackCommand.execute('Test');
 
@@ -122,7 +122,7 @@ describe('FeedbackCommand', () => {
 
       // Should show manual submission URL
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('https://github.com/Fission-AI/OpenSpec/issues/new')
+        expect.stringContaining('https://github.com/yurychang/OpenSpec/issues/new')
       );
     });
 
@@ -156,7 +156,7 @@ describe('FeedbackCommand', () => {
 
   describe('successful feedback submission', () => {
     it('should submit feedback via gh CLI when authenticated', async () => {
-      const issueUrl = 'https://github.com/Fission-AI/OpenSpec/issues/123';
+      const issueUrl = 'https://github.com/yurychang/OpenSpec/issues/123';
 
       // Simulate gh installed and authenticated
       setGhProbes();
@@ -172,7 +172,7 @@ describe('FeedbackCommand', () => {
           'issue',
           'create',
           '--repo',
-          'Fission-AI/OpenSpec',
+          'yurychang/OpenSpec',
           '--title',
           'Feedback: Great tool!',
           '--body',
@@ -204,7 +204,7 @@ describe('FeedbackCommand', () => {
     });
 
     it('should preserve message and body whitespace in the issue body', async () => {
-      const issueUrl = 'https://github.com/Fission-AI/OpenSpec/issues/124';
+      const issueUrl = 'https://github.com/yurychang/OpenSpec/issues/124';
 
       setGhProbes();
 
@@ -224,7 +224,7 @@ describe('FeedbackCommand', () => {
     it('should preserve the full message in the body and shorten a long title', async () => {
       setGhProbes();
 
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/125\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/125\n');
 
       const message =
         'Generated workflows declare too few allowed tools,\nso headless runs cannot write files and silently fail.';
@@ -245,7 +245,7 @@ describe('FeedbackCommand', () => {
     it('should not split Unicode grapheme clusters when shortening a title', async () => {
       setGhProbes();
 
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/125\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/125\n');
 
       const family = '👨‍👩‍👧‍👦';
       const message = family.repeat(20);
@@ -263,7 +263,7 @@ describe('FeedbackCommand', () => {
     it('should enforce the title limit at the exact boundary', async () => {
       setGhProbes();
 
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/125\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/125\n');
 
       await feedbackCommand.execute('x'.repeat(62));
       await feedbackCommand.execute('x'.repeat(63));
@@ -282,7 +282,7 @@ describe('FeedbackCommand', () => {
     it('should format title with "Feedback:" prefix', async () => {
       setGhProbes();
 
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/125\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/125\n');
 
       await feedbackCommand.execute('Test message');
 
@@ -300,7 +300,7 @@ describe('FeedbackCommand', () => {
     it('should include metadata in issue body', async () => {
       setGhProbes();
 
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/126\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/126\n');
 
       await feedbackCommand.execute('Test', { body: 'Body text' });
 
@@ -318,7 +318,7 @@ describe('FeedbackCommand', () => {
     it('should add feedback label to the issue', async () => {
       setGhProbes();
 
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/127\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/127\n');
 
       await feedbackCommand.execute('Test');
 
@@ -365,7 +365,7 @@ describe('FeedbackCommand', () => {
         expect.stringContaining('Please submit your feedback manually:')
       );
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('github.com/Fission-AI/OpenSpec/issues/new')
+        expect.stringContaining('github.com/yurychang/OpenSpec/issues/new')
       );
     });
 
@@ -395,7 +395,7 @@ describe('FeedbackCommand', () => {
     });
 
     it('should retry without the label when the repo does not define it', async () => {
-      const issueUrl = 'https://github.com/Fission-AI/OpenSpec/issues/129';
+      const issueUrl = 'https://github.com/yurychang/OpenSpec/issues/129';
 
       setGhProbes();
 
@@ -478,7 +478,7 @@ describe('FeedbackCommand', () => {
     it('should handle quotes in title and body without escaping (no shell injection)', async () => {
       setGhProbes();
 
-      ghIssueSync.mockReturnValue('https://github.com/Fission-AI/OpenSpec/issues/128\n');
+      ghIssueSync.mockReturnValue('https://github.com/yurychang/OpenSpec/issues/128\n');
 
       await feedbackCommand.execute('Test with "quotes"', {
         body: 'Body with "quotes"',
@@ -554,7 +554,7 @@ describe('FeedbackCommand', () => {
           const parsed = new URL(found[0]);
           return (
             parsed.origin === 'https://github.com' &&
-            parsed.pathname === '/Fission-AI/OpenSpec/issues/new'
+            parsed.pathname === '/yurychang/OpenSpec/issues/new'
           );
         } catch {
           return false;

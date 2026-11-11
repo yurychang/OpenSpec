@@ -121,7 +121,7 @@ Each selected tool gets OpenSpec's skills and commands in its own directory:
 OpenSpec Setup Complete
 
 Created: Claude Code
-6 skills and 6 commands in .claude/
+7 skills and 7 commands in .claude/
 Config: openspec/config.yaml (schema: spec-driven)
 
 Getting started:
@@ -298,7 +298,7 @@ delivery: both
 Profile settings:
   profile: core (default)
   delivery: both (default)
-  workflows: propose, explore, apply, update, sync, archive (from core profile)
+  workflows: propose, explore, auto, apply, update, sync, archive (from core profile)
 ```
 
 ### openspec config get
@@ -1422,13 +1422,13 @@ Schema: spec-driven
 Source: package
 
 proposal:
-  /usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven/templates/proposal.md
+  /usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven/templates/proposal.md
 specs:
-  /usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven/templates/spec.md
+  /usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven/templates/spec.md
 design:
-  /usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven/templates/design.md
+  /usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven/templates/design.md
 tasks:
-  /usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven/templates/tasks.md
+  /usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven/templates/tasks.md
 ```
 
 `Source` names where the schema resolved from: `project` (`openspec/schemas/` in your project), `user` (a global override), or `package` (built into the CLI). Project wins over user, user over package.
@@ -1436,19 +1436,19 @@ tasks:
 ```json
 {
   "proposal": {
-    "path": "/usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven/templates/proposal.md",
+    "path": "/usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven/templates/proposal.md",
     "source": "package"
   },
   "specs": {
-    "path": "/usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven/templates/spec.md",
+    "path": "/usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven/templates/spec.md",
     "source": "package"
   },
   "design": {
-    "path": "/usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven/templates/design.md",
+    "path": "/usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven/templates/design.md",
     "source": "package"
   },
   "tasks": {
-    "path": "/usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven/templates/tasks.md",
+    "path": "/usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven/templates/tasks.md",
     "source": "package"
   }
 }
@@ -1559,7 +1559,7 @@ openspec schema which --all        # every schema, grouped by source
 ```
 Schema: spec-driven
 Source: package
-Path: /usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven
+Path: /usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven
 ```
 
 When a higher-priority copy hides another, a `Shadows:` section lists the hidden copies. With `--json`:
@@ -1633,7 +1633,7 @@ openspec schema fork spec-driven my-flow
 ```
 ✔ Forked 'spec-driven' to 'my-flow'
 
-Source: /usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven (package)
+Source: /usr/local/lib/node_modules/@yurychang/openspec/schemas/spec-driven (package)
 Destination: /Users/you/projects/my-app/openspec/schemas/my-flow
 ```
 
@@ -2276,7 +2276,7 @@ The install scope is `global`, `project`, `temporary` for an ephemeral runner su
   "schemaVersion": 1,
   "version": "1.13.2",
   "install": {
-    "location": "/opt/homebrew/lib/node_modules/@fission-ai/openspec",
+    "location": "/opt/homebrew/lib/node_modules/@yurychang/openspec",
     "packageManager": "npm",
     "scope": "global"
   }
@@ -2288,7 +2288,7 @@ With `--check`, an available update adds the latest version and a command when O
 ```text
 OpenSpec 1.13.2 (npm, global)
 Update available: 1.14.0
-  npm install -g @fission-ai/openspec@latest
+  npm install -g @yurychang/openspec@latest
 ```
 
 ```json
@@ -2296,14 +2296,14 @@ Update available: 1.14.0
   "schemaVersion": 1,
   "version": "1.13.2",
   "install": {
-    "location": "/opt/homebrew/lib/node_modules/@fission-ai/openspec",
+    "location": "/opt/homebrew/lib/node_modules/@yurychang/openspec",
     "packageManager": "npm",
     "scope": "global"
   },
   "update": {
     "status": "available",
     "latest": "1.14.0",
-    "command": "npm install -g @fission-ai/openspec@latest",
+    "command": "npm install -g @yurychang/openspec@latest",
     "canSelfUpgrade": true
   }
 }
@@ -2338,7 +2338,7 @@ openspec install 1.15.0   # a specific release
 
 It runs the [install script](../start/installation.md#install), which picks the newest release whose files are all attached and the file for your machine, and checks it against that release's `SHA256SUMS`:
 
-- **From a package manager**: installs to `~/.local/bin` (Windows: `%LOCALAPPDATA%\Programs\openspec`) and prints the command that removes the old copy, such as `npm uninstall -g @fission-ai/openspec`. It never removes that copy itself.
+- **From a package manager**: installs to `~/.local/bin` (Windows: `%LOCALAPPDATA%\Programs\openspec`) and prints the command that removes the old copy, such as `npm uninstall -g @yurychang/openspec`. It never removes that copy itself.
 - **From the standalone install**: replaces the running file where it is, under its own name.
 
 Afterwards it says which copy `openspec` now runs, since a package-manager copy earlier on your PATH keeps running until you remove it.
@@ -2365,7 +2365,7 @@ openspec feedback "Validate output is hard to scan"
 openspec feedback "Archive fails on Windows" --body "Steps: init, propose, archive. Error: EPERM."
 ```
 
-The CLI files your message as a GitHub issue on the `Fission-AI/OpenSpec` repo through your `gh` CLI. The title becomes `Feedback: <message>`. The body uses the bug form's headings: your message under `What happened`, your `--body` text under `Details`, and a `Minimal steps to reproduce` section asking you to add the steps, since the CLI can't fill those in. A footer adds CLI version, platform, and timestamp. The issue gets the `feedback` label. If the repo doesn't define that label, the CLI retries without it and says so.
+The CLI files your message as a GitHub issue on the `yurychang/OpenSpec` repo through your `gh` CLI. The title becomes `Feedback: <message>`. The body uses the bug form's headings: your message under `What happened`, your `--body` text under `Details`, and a `Minimal steps to reproduce` section asking you to add the steps, since the CLI can't fill those in. A footer adds CLI version, platform, and timestamp. The issue gets the `feedback` label. If the repo doesn't define that label, the CLI retries without it and says so.
 
 **Arguments**
 
@@ -2385,7 +2385,7 @@ On success:
 
 ```
 ✓ Feedback submitted successfully!
-Issue URL: https://github.com/Fission-AI/OpenSpec/issues/1234
+Issue URL: https://github.com/yurychang/OpenSpec/issues/1234
 ```
 
 Without `gh` installed, or with `gh` not logged in, nothing is submitted. The CLI prints your formatted feedback between `--- FORMATTED FEEDBACK ---` markers, then a link that opens the bug report form with the title, what happened (your message and `--body` text), CLI version, and environment (platform and Node version) filled in. You complete the rest of the form in the browser. The not-logged-in path adds `To auto-submit in the future: gh auth login`.

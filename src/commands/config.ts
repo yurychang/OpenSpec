@@ -181,6 +181,10 @@ interface WorkflowPromptMeta {
 }
 
 export const WORKFLOW_PROMPT_META: Record<string, WorkflowPromptMeta> = {
+  auto: {
+    name: 'Complete automatically',
+    description: 'Check exploration, then finish planning and implementation',
+  },
   propose: {
     name: 'Propose change',
     description: 'Create proposal, design, and tasks from a request',

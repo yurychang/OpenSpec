@@ -2,7 +2,7 @@
  * Optional-Workflow Conditionals
  *
  * Not every workflow is installed. The `core` profile ships six of the twelve
- * (`propose`, `explore`, `apply`, `update`, `sync`, `archive`), and a `custom`
+ * (`propose`, `explore`, `auto`, `apply`, `update`, `sync`, `archive`), and a `custom`
  * profile can ship any subset. A template that names `/opsx:continue` is
  * therefore writing a dead reference for anyone whose profile omits it — the
  * agent is told to hand off to a workflow that was never generated (#1734,
