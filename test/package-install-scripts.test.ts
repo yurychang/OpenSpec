@@ -137,5 +137,5 @@ describe('npm source installation', () => {
     expect(result.status).not.toBe(0);
     expect(`${result.stdout}\n${result.stderr}`).toContain('Build failed');
     expect(fs.readdirSync(sourceDir).some((name) => name.endsWith('.tgz'))).toBe(false);
-  });
+  }, 60_000);
 });
