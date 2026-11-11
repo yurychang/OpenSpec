@@ -2,19 +2,22 @@
 
 > Install the `openspec` CLI on your machine, update it, and uninstall it.
 
+These commands install the `yurychang/OpenSpec` fork. The executable is `openspec`; the npm package is `@yurychang/openspec`. See [fork maintenance](../../FORK.md) for release setup and upstream sync.
+
+**Before the first fork release:** use the [source install](#from-source), Nix, or Homebrew HEAD. npm and standalone downloads need a published fork package or release.
 
 ## Install
 
 On macOS or Linux, in your terminal:
 
 ```bash
-curl -fsSL https://openspec.dev/cli/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | sh
 ```
 
 On Windows, in PowerShell:
 
 ```powershell
-irm https://openspec.dev/cli/install.ps1 | iex
+irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 ```
 
 If the installer prints an `export PATH=...` line, run it. Then [check it worked](#check-it-worked).
@@ -24,18 +27,18 @@ If the installer prints an `export PATH=...` line, run it. Then [check it worked
 Paste this into your AI chat:
 
 ```text
-Fetch https://raw.githubusercontent.com/Fission-AI/OpenSpec/main/install.md and follow it.
+Fetch https://raw.githubusercontent.com/yurychang/OpenSpec/main/install.md and follow it.
 ```
 
 Or, in your terminal, pipe it into a CLI agent (Claude Code shown):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Fission-AI/OpenSpec/main/install.md | claude
+curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/install.md | claude
 ```
 
-That fetches [install.md at the repo root](https://github.com/Fission-AI/OpenSpec/blob/main/install.md), a prompt written for any agent that can run shell commands (a few IDE integrations can't). Expect your assistant to:
+That fetches [install.md at the repo root](https://github.com/yurychang/OpenSpec/blob/main/install.md), a prompt written for any agent that can run shell commands (a few IDE integrations can't). Expect your assistant to:
 
-1. Skip the install if the CLI is already on your machine, and offer to update it the way it was installed. If that was npm or Homebrew, mention once that `openspec install` switches to the standalone install, without pushing it. Otherwise, show you the install command above and wait for your confirmation before running it.
+1. Check whether an existing CLI is this fork. If its source is upstream or unknown, offer to replace it using the same install method. Otherwise offer to update the fork. Show the exact command before running it.
 2. Use npm instead only if you ask for it or the installer fails, and stop if your Node is older than 22.12.0.
 3. Verify `openspec` is on your PATH.
 4. Name the folder it thinks you mean, suggest the AI tool you're already talking to, and ask which others you use, then run `openspec init` there (the [project setup](setup.md) step).
@@ -56,7 +59,7 @@ node --version
 If that prints `v22.12.0` or higher, install with npm:
 
 ```npm
-npm install -g @fission-ai/openspec@latest
+npm install -g @yurychang/openspec@latest
 ```
 
 If not, install a newer Node from [nodejs.org](https://nodejs.org) or through your version manager (nvm, fnm, asdf, volta), or use the [standalone install](#install) instead.
@@ -66,10 +69,11 @@ If not, install a newer Node from [nodejs.org](https://nodejs.org) or through yo
 Homebrew installs OpenSpec and its Node.js dependency on macOS or Linux. In your terminal:
 
 ```bash
-brew install openspec
+brew tap --custom-remote yurychang/openspec https://github.com/yurychang/OpenSpec.git
+brew install --HEAD yurychang/openspec/openspec
 ```
 
-The formula is published in [homebrew-core](https://formulae.brew.sh/formula/openspec), so you don't need to add a tap.
+The formula lives in this repo's `Formula/openspec.rb` and builds `main`. It is HEAD-only. Remove an existing upstream formula with `brew uninstall openspec` before installing the fork.
 
 ### Yarn
 
@@ -86,36 +90,65 @@ Deno installs the CLI from npm and needs explicit permission flags. In your term
 ```bash
 deno install --global \
   --allow-read --allow-write --allow-env --allow-sys=cpus,homedir --allow-net=edge.openspec.dev \
-  npm:@fission-ai/openspec@latest
+  npm:@yurychang/openspec@latest
 ```
 
 Some commands launch another program: [`openspec config edit`](../reference/cli.md) opens your editor. Deno interrupts those with a permission prompt on every run. To stop it asking, add a scoped `--allow-run=<program>` to the install command.
 
 > [!NOTE]
-> If Deno can't resolve `@latest`, pin a version range instead: `npm:@fission-ai/openspec@^1.7.0`.
+> If Deno can't resolve `@latest`, pin a version range instead: `npm:@yurychang/openspec@^1.7.0`.
 
 ### Nix
 
 The OpenSpec repo ships a Nix flake. Install it into your profile. In your terminal:
 
 ```bash
-nix profile install github:Fission-AI/OpenSpec
+nix profile install github:yurychang/OpenSpec
 ```
 
 Or run a one-off command first, without installing:
 
 ```bash
-nix run github:Fission-AI/OpenSpec -- --version
+nix run github:yurychang/OpenSpec -- --version
 ```
 
 That leaves nothing on your PATH, so there's no install to check afterward.
 
-To put OpenSpec in a project dev shell instead, add the flake as an input and use its default package; [flake.nix](https://github.com/Fission-AI/OpenSpec/blob/main/flake.nix) lists the outputs.
+To put OpenSpec in a project dev shell instead, add the flake as an input and use its default package; [flake.nix](https://github.com/yurychang/OpenSpec/blob/main/flake.nix) lists the outputs.
 
 The Nix package ships the Bash, Fish, and Zsh completion scripts at the standard
 locations (`share/bash-completion/completions`, `share/fish/vendor_completions.d`,
 `share/zsh/site-functions`), so they load with the package and there is no need to run
 `openspec completion install`.
+
+### From source
+
+With Node.js 22.12.0+ and Git, install the current fork directly:
+
+```bash
+npm install -g github:yurychang/OpenSpec#main
+```
+
+For local development, build and link a checkout:
+
+```bash
+git clone https://github.com/yurychang/OpenSpec.git
+cd OpenSpec
+corepack pnpm install --frozen-lockfile
+npm link
+```
+
+Source installs run `prepare` to build the CLI. They need build dependencies and must allow that script. To update a source install, repeat its install command; local checkouts need a pull and rebuild.
+
+### Skills only (skills.sh)
+
+In your terminal:
+
+```bash
+npx skills add yurychang/OpenSpec
+```
+
+This installs the committed agent skills, including `openspec-auto`. Install the CLI separately and run `openspec init` in your project. See [skills/README.md](../../skills/README.md).
 
 ## Check it worked
 
@@ -134,7 +167,7 @@ Next, [set up your project](setup.md). If your assistant already ran init, that 
 To pick a version or a folder, set a variable before `sh`:
 
 ```bash
-curl -fsSL https://openspec.dev/cli/install.sh | OPENSPEC_VERSION=v1.15.0 sh
+curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | OPENSPEC_VERSION=v1.15.0 sh
 ```
 
 - **`OPENSPEC_VERSION`**: the release to install, such as `v1.15.0`. The default is the newest release.
@@ -144,7 +177,7 @@ On Windows, set the variable first:
 
 ```powershell
 $env:OPENSPEC_VERSION = 'v1.15.0'
-irm https://openspec.dev/cli/install.ps1 | iex
+irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 ```
 
 On Alpine Linux, run `apk add libstdc++ libgcc` before installing.
@@ -164,7 +197,7 @@ Each release has one file per computer:
 | Windows, arm64 | `openspec-windows-arm64.zip` |
 | Windows, x64 | `openspec-windows-x64.zip` |
 
-1. **Download** your file from the [latest release](https://github.com/Fission-AI/OpenSpec/releases/latest). Files are attached a few minutes after a release is published. If yours isn't listed yet, wait and reload, or take it from the previous release.
+1. **Download** your file from the [latest release](https://github.com/yurychang/OpenSpec/releases/latest). Files are attached a few minutes after a release is published. If yours isn't listed yet, wait and reload, or take it from the previous release.
 2. **Unpack** it. In your terminal: `tar -xzf openspec-darwin-arm64.tar.gz`. On Windows, right-click the `.zip` and choose Extract All.
 3. **On macOS**, run `xattr -d com.apple.quarantine openspec` in the folder you unpacked to. macOS blocks files downloaded in a browser until you do.
 4. **Move** `openspec` into a folder on your PATH, such as `~/.local/bin`. On Windows, move `openspec.exe` into a folder on your user PATH, such as `%LOCALAPPDATA%\Programs\openspec`.
@@ -174,7 +207,7 @@ Each release has one file per computer:
 To check that a file was built by the OpenSpec release workflow, run this with the [GitHub CLI](https://cli.github.com):
 
 ```bash
-gh attestation verify openspec-darwin-arm64.tar.gz --repo Fission-AI/OpenSpec
+gh attestation verify openspec-darwin-arm64.tar.gz --repo yurychang/OpenSpec
 ```
 
 It fails if the workflow didn't build the file. The install command already checks each download against the release's `SHA256SUMS`, so this step is optional.
@@ -194,7 +227,7 @@ It installs the standalone `openspec` and prints the command that removes your n
 **2. Remove the old copy.** It usually comes first on your PATH, so until it's gone it keeps running instead. Run the command step 1 printed, for example:
 
 ```npm
-npm uninstall -g @fission-ai/openspec
+npm uninstall -g @yurychang/openspec
 ```
 
 **3. Check which copy runs.** Open a new terminal:
@@ -219,7 +252,7 @@ When a newer CLI is out, [`openspec update`](../reference/cli.md#openspec-update
 
 
 > [!WARNING]
-> With the standalone install, run `openspec install` to replace your copy in place; `openspec update` tells you when a newer one is out. On Homebrew, run `brew upgrade openspec`. On Deno, re-run the [Deno install](#deno) with `-f`; it won't overwrite the installed command without it. On Nix, use `nix profile upgrade openspec`.
+> With the standalone install, run `openspec install` to replace your copy in place; `openspec update` tells you when a newer one is out. On Homebrew, run `brew upgrade --fetch-HEAD yurychang/openspec/openspec`. On Deno, re-run the [Deno install](#deno) with `-f`; it won't overwrite the installed command without it. On Nix, use `nix profile upgrade openspec`.
 
 > [!NOTE]
 > A global npm install belongs to one Node installation. Switch Node versions with nvm and the `openspec` command doesn't come along, so install it again under the new version.
@@ -237,10 +270,10 @@ openspec completion uninstall
 **2. Remove the CLI.** For the standalone install, delete `~/.local/bin/openspec` (Windows: `%LOCALAPPDATA%\Programs\openspec`, and that folder from your user PATH). For npm, in your terminal:
 
 ```npm
-npm uninstall -g @fission-ai/openspec
+npm uninstall -g @yurychang/openspec
 ```
 
-On Homebrew: `brew uninstall openspec`. On Deno: `deno uninstall --global openspec`. On Nix: `nix profile remove openspec`. Your shell should no longer find `openspec`.
+On Homebrew: `brew uninstall yurychang/openspec/openspec`. On Deno: `deno uninstall --global openspec`. On Nix: `nix profile remove openspec`. Your shell should no longer find `openspec`.
 
 **3. Delete what's left, or keep it.**
 

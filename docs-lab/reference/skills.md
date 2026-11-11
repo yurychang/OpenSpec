@@ -50,6 +50,7 @@ Commands are always the second case. A project whose `openspec/config.yaml` name
 |---|---|---|
 | [openspec-explore](#openspec-explore) | Think through an idea before it becomes a change proposal | Core |
 | [openspec-propose](#openspec-propose) | Create a change proposal with all its planning artifacts in one step | Core |
+| [openspec-auto](#openspec-auto) | Check progress and complete planning and implementation when exploration is settled | Core |
 | [openspec-apply-change](#openspec-apply-change) | Implement a change proposal's tasks | Core |
 | [openspec-update-change](#openspec-update-change) | Revise a change proposal's plan | Core |
 | [openspec-sync-specs](#openspec-sync-specs) | Merge a change proposal's spec updates into `specs/` | Core |
@@ -82,6 +83,18 @@ Create a change proposal and generate all its planning artifacts in one step.
 | **Arguments** | A kebab-case name (`add-dark-mode`) or a plain description. Asks if you give neither. |
 | **Creates** | `openspec/changes/<name>/` with every artifact the schema defines, in dependency order (spec-driven: proposal, spec deltas, design, tasks). Never code. |
 | **Response** | The created artifacts, ready for review, and the next step. Stops there; implementation waits for `openspec-apply-change`. |
+
+## openspec-auto
+
+Check current progress and complete planning and implementation in one run when exploration is settled.
+
+| Contract | Description |
+|---|---|
+| **Arguments** | An optional change proposal name or settled description. Uses the explicit target, the conversation's target, or the only active change. Asks when several are plausible. Invoke explicitly with `openspec auto` or your tool's skill syntax. |
+| **Creates** | Nothing while exploration has unresolved material questions. Otherwise creates only missing required planning artifacts and implements unfinished tasks. Reuses existing artifacts and task progress. |
+| **Response** | Unfinished exploration: current stage, settled decisions, and the specific next question. Settled exploration or a later stage: completes the required planning and applies the change without another handoff request. Reports completion or a blocker. Never archives automatically. |
+
+Exploration has no persisted completion flag. The agent checks the conversation and existing artifacts for a clear goal, scope, approach, and acceptance criteria. `openspec status` reports artifact existence, not exploration completion. An explicit auto request authorizes both planning and implementation. The separate `openspec-propose` skill still stops after planning.
 
 ## openspec-apply-change
 

@@ -9,7 +9,7 @@ Concrete fixes for concrete problems. Each entry names a symptom, explains the l
 The CLI isn't installed, or your shell can't find it. Install it globally and check:
 
 ```bash
-npm install -g @fission-ai/openspec@latest
+npm install -g @yurychang/openspec@latest
 openspec --version
 ```
 
@@ -191,7 +191,7 @@ That's intentional. OpenSpec never deletes `project.md` automatically because it
 ## Still stuck?
 
 - **Discord:** [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC)
-- **GitHub Issues:** [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues)
+- **GitHub Issues:** [github.com/yurychang/OpenSpec/issues](https://github.com/yurychang/OpenSpec/issues)
 - **From your terminal:** `openspec feedback "what went wrong"` opens an issue for you.
 
 When you report a problem, include your OpenSpec version (`openspec --version`), your Node version (`node --version`), your AI tool, and the exact command and output. It makes help much faster.

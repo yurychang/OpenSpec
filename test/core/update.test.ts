@@ -1155,6 +1155,7 @@ metadata:
         'openspec-update-change',
         'openspec-sync-specs',
         'openspec-archive-change',
+        'openspec-auto',
         'openspec-propose',
       ];
 
@@ -3850,7 +3851,7 @@ More user content after markers.
           featureFlags: {},
           profile: 'custom',
           delivery,
-          workflows: ['propose', 'explore', 'apply', 'archive'],
+          workflows: ['propose', 'explore', 'auto', 'apply', 'archive'],
         });
 
         const archiveSkill = path.join(
@@ -3906,7 +3907,7 @@ More user content after markers.
         featureFlags: {},
         profile: 'custom',
         delivery: 'both',
-        workflows: ['propose', 'explore', 'apply', 'sync', 'archive'],
+        workflows: ['propose', 'explore', 'auto', 'apply', 'sync', 'archive'],
       });
 
       const initCommand = new InitCommand({ tools: 'claude', force: true });
@@ -3934,7 +3935,7 @@ More user content after markers.
         featureFlags: {},
         profile: 'custom',
         delivery: 'both',
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'verify'],
+        workflows: ['propose', 'explore', 'auto', 'apply', 'update', 'sync', 'archive', 'verify'],
       });
 
       const initCommand = new InitCommand({ tools: 'claude', force: true });
@@ -3983,7 +3984,7 @@ More user content after markers.
         featureFlags: {},
         profile: 'custom',
         delivery: 'both',
-        workflows: ['propose', 'explore', 'apply', 'sync', 'archive'],
+        workflows: ['propose', 'explore', 'auto', 'apply', 'sync', 'archive'],
       });
 
       const initCommand = new InitCommand({ tools: 'claude', force: true });
@@ -4280,6 +4281,7 @@ More user content after markers.
       expect((await fs.readdir(skillsDir)).sort()).toEqual([
         'openspec-apply-change',
         'openspec-archive-change',
+        'openspec-auto',
         'openspec-custom',
         'openspec-explore',
         'openspec-propose',

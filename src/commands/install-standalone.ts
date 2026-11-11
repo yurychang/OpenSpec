@@ -18,7 +18,7 @@ import {
 
 // The installers come from main, which always has them; they then pick the
 // newest release whose files are all attached (see install.sh).
-const INSTALLER_BASE = 'https://raw.githubusercontent.com/Fission-AI/OpenSpec/main/scripts/binary';
+const INSTALLER_BASE = 'https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary';
 const RELEASE_VERSION = /^v?\d{1,10}\.\d{1,10}\.\d{1,10}(?:-[0-9A-Za-z.-]{1,64})?$/;
 
 export interface InstallTarget {
@@ -55,19 +55,19 @@ export function removeCommandFor(install: CliInstallInfo): string | null {
   if (install.scope !== 'global') return null;
   // The Homebrew formula keeps its own npm tree under Cellar; brew owns it.
   if (install.location && /[\\/]Cellar[\\/]openspec[\\/]/i.test(install.location)) {
-    return 'brew uninstall openspec';
+    return 'brew uninstall yurychang/openspec/openspec';
   }
   switch (install.packageManager) {
     case 'npm':
-      return 'npm uninstall -g @fission-ai/openspec';
+      return 'npm uninstall -g @yurychang/openspec';
     case 'pnpm':
-      return 'pnpm remove -g @fission-ai/openspec';
+      return 'pnpm remove -g @yurychang/openspec';
     case 'yarn':
-      return 'yarn global remove @fission-ai/openspec';
+      return 'yarn global remove @yurychang/openspec';
     case 'bun':
-      return 'bun remove -g @fission-ai/openspec';
+      return 'bun remove -g @yurychang/openspec';
     case 'volta':
-      return 'volta uninstall @fission-ai/openspec';
+      return 'volta uninstall @yurychang/openspec';
     default:
       return null;
   }

@@ -5,6 +5,8 @@ import { describe, expect, it } from 'vitest';
 
 import {
   type SkillTemplate,
+  getAutoSkillTemplate,
+  getOpsxAutoCommandTemplate,
   getApplyInstructions,
   getApplyChangeSkillTemplate,
   getArchiveChangeSkillTemplate,
@@ -76,6 +78,8 @@ function specDrivenTitles(): Record<string, string> {
 }
 
 const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
+  getAutoSkillTemplate: '5e12f7ad4f50d75702e0970da8d100ec9c21bd86a56a0bd2a98e5095509c59a8',
+  getOpsxAutoCommandTemplate: '4d984221df5b32252c2d0952a6a19321e22a8f8530049e06f7d22955844eff2d',
   getExploreSkillTemplate: '80246765b685ec1e5530e8348bde84ed2ba0a6c418c9fbcd7e9e79a638d289dd',
   getNewChangeSkillTemplate: '0e5035b7b42198afc430206a1dbc9579096650ef0813d85e837d5a6cd0b98a85',
   getContinueChangeSkillTemplate: '2da5a24eb949f0717ffdb23c28c021ab6f73dc4beeb92ab709b8dbdac9db7355',
@@ -104,6 +108,7 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
 };
 
 const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
+  'openspec-auto': '1687a18be26b75f76301393348924ccee84fde314b8c51fe5b71197f69bed2ef',
   'openspec-explore': '90a87227a7d3dca576448bb16936cede31b4e4666d35a6f0744e0b9bc628f1ac',
   'openspec-new-change': '27e09d43785953827efc9a98bb9d6cf06db48fe6abe7e1c049409fe5b5061323',
   'openspec-continue-change': 'd8859091316ad43a58cd015091454a95bf49378ec9d9117b24ab9b2396dc8303',
@@ -121,6 +126,7 @@ const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
 // Intentionally excludes getFeedbackSkillTemplate: this list only models templates
 // deployed via generateSkillContent, while feedback is covered in function payload parity.
 const GENERATED_SKILL_FACTORIES: Array<[string, () => SkillTemplate]> = [
+  ['openspec-auto', getAutoSkillTemplate],
   ['openspec-explore', getExploreSkillTemplate],
   ['openspec-new-change', getNewChangeSkillTemplate],
   ['openspec-continue-change', getContinueChangeSkillTemplate],
@@ -203,6 +209,8 @@ describe('skill templates split parity', () => {
 
   it('preserves all template function payloads exactly', () => {
     const functionFactories: Record<string, () => unknown> = {
+      getAutoSkillTemplate,
+      getOpsxAutoCommandTemplate,
       getExploreSkillTemplate,
       getNewChangeSkillTemplate,
       getContinueChangeSkillTemplate,

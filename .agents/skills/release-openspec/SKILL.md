@@ -13,9 +13,13 @@ description: >-
 
 Run the OpenSpec release workflow as a resumable state machine. Inspect live GitHub state on every invocation and take only the next safe action. Do not assume an earlier invocation completed.
 
+## Fork publishing setup
+
+Read [FORK.md](../../../FORK.md) for this fork's identity and publishing setup. Confirm npm scope authorization, Actions permissions, and trusted publishing or the bootstrap NPM_TOKEN before release mutations. APP_ID and APP_PRIVATE_KEY are optional; without them the workflow uses GITHUB_TOKEN and explicitly dispatches binary builds. Do not publish or open release work against the upstream repository.
+
 ## Principles
 
-- Treat `Fission-AI/OpenSpec` and `origin/main` as the release source of truth.
+- Treat `yurychang/OpenSpec` and `origin/main` as the release source of truth.
 - Default to a read-only audit when the user asks for status, readiness, or advice.
 - Treat a request to release, prepare a release, continue, or resume as authorization to perform the applicable release actions.
 - Preserve the user's checkout. Never discard unrelated changes or switch their current branch just to prepare a changeset.
@@ -40,7 +44,7 @@ An open Version Packages PR does not prohibit a catch-up changeset PR. It means 
 1. Verify the repository and tools:
    - Resolve the GitHub repository with `gh repo view --json nameWithOwner,url`.
    - Require authenticated `gh`, `git`, and `pnpm` before write actions.
-   - Stop before release mutations if the canonical repository is not `Fission-AI/OpenSpec`.
+   - Stop before release mutations if the canonical repository is not `yurychang/OpenSpec`.
 2. Refresh without modifying the worktree:
 
    ```bash
@@ -52,18 +56,20 @@ An open Version Packages PR does not prohibit a catch-up changeset PR. It means 
 3. Find the latest stable GitHub release. Exclude drafts and prereleases; do not use `git describe`, because a beta tag may be newer than the stable baseline.
 
    ```bash
-   gh release list --repo Fission-AI/OpenSpec \
+   gh release list --repo yurychang/OpenSpec \
      --exclude-drafts --exclude-pre-releases --limit 100 \
      --json tagName,publishedAt \
      --jq 'max_by(.publishedAt) | {tagName, publishedAt}'
    ```
+
+   If this fork has no stable release yet, report the baseline as "none (first fork release)". Audit the fork's pending changesets and release setup in FORK.md. Do not substitute an upstream release or require changesets for all inherited upstream history. Skip the stable-tag log boundary in step 6 for this first release.
 
    Ensure that exact stable tag resolves locally before using it as a `git log` boundary. Fetch only that tag if it is missing. If a same-named local tag disagrees with the canonical remote, report the mismatch and use a separately resolved canonical commit; never force-rewrite the user's tag as part of an audit.
 
 4. Find open release-related PRs:
 
    ```bash
-   gh pr list --repo Fission-AI/OpenSpec --state open \
+   gh pr list --repo yurychang/OpenSpec --state open \
      --head changeset-release/main \
      --json number,title,headRefName,baseRefName,url,reviewDecision,statusCheckRollup
    ```
@@ -112,7 +118,7 @@ Do this only for `missing-tracking`.
 2. Read `.changeset/README.md` immediately before authoring.
 3. Only when no suitable PR exists, create a short `changeset-<scope>` branch from current `origin/main`. Use a temporary worktree so the operator's checkout remains untouched.
 4. Prefer one changeset per coherent release unit. A single catch-up changeset may summarize several small items selected for the same release.
-5. Use the exact package name `"@fission-ai/openspec"`, the highest required semantic bump, only relevant headings, and user-focused descriptions.
+5. Use the exact package name `"@yurychang/openspec"`, the highest required semantic bump, only relevant headings, and user-focused descriptions.
 6. Validate before pushing:
 
    ```bash
@@ -143,7 +149,7 @@ After the Version Packages PR merges:
 
 1. Find the release workflow run for the merge commit and wait for completion.
 2. Verify all three artifacts independently:
-   - `npm view @fission-ai/openspec@<version> version`
+   - `npm view @yurychang/openspec@<version> version`
    - remote tag `v<version>` points at the expected commit;
    - `gh release view v<version>` exists and is not a prerelease.
    - The release's assets include the 8 `openspec-*` standalone archives (`.tar.gz`, `.zip` on Windows) and `SHA256SUMS`, attached by the Binaries workflow (`binaries.yml`) about 10 minutes after the release is published. Until `SHA256SUMS` is there, the install scripts keep installing the previous release, so users are never left without one.

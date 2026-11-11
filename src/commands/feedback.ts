@@ -147,7 +147,7 @@ function generateManualSubmissionUrl(title: string, message: string, bodyText?: 
     environment: `${getPlatform()}, Node ${process.version}`,
   });
 
-  return `https://github.com/Fission-AI/OpenSpec/issues/new?${params.toString()}`;
+  return `https://github.com/yurychang/OpenSpec/issues/new?${params.toString()}`;
 }
 
 /**
@@ -207,7 +207,7 @@ function createIssue(title: string, body: string, labels: string[]): string {
     'issue',
     'create',
     '--repo',
-    'Fission-AI/OpenSpec',
+    'yurychang/OpenSpec',
     '--title',
     title,
     '--body',

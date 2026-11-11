@@ -10,6 +10,7 @@ on:
 # and needs no PR access, so it inherits this narrower default.
 permissions:
   contents: write
+  actions: write # dispatch binary builds when releases use GITHUB_TOKEN
   id-token: write # Required for npm OIDC trusted publishing
 
 concurrency:
@@ -18,17 +19,19 @@ concurrency:
 
 jobs:
   prepare:
-    if: github.repository == 'Fission-AI/OpenSpec' && github.event_name == 'push'
+    if: github.repository == 'yurychang/OpenSpec' && github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write # changesets opens/updates the Version Packages PR
+      actions: write
       id-token: write # Required for npm OIDC trusted publishing
     steps:
       # Generate GitHub App token first - used for checkout and changesets
       # This allows git operations to trigger CI workflows on the version PR
       # (GITHUB_TOKEN cannot trigger workflows by design)
       - name: Generate GitHub App Token
+        if: vars.APP_ID != ''
         id: app-token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3
         with:
@@ -38,7 +41,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ steps.app-token.outputs.token || github.token }}
 
       - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
 
@@ -55,7 +58,7 @@ jobs:
         id: changesets
         uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
-          github-token: ${{ steps.app-token.outputs.token }}
+          github-token: ${{ steps.app-token.outputs.token || github.token }}
           pr-title: 'chore(release): version packages'
           create-github-releases: true
           # Preserve the v1 release path: pushes use the GitHub App token from
@@ -65,8 +68,43 @@ jobs:
           # so package.json already contains the bumped version.
           publish-script: pnpm run release:ci
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-          # npm authentication handled via OIDC trusted publishing (no token needed)
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
+          # Optional for the first publish; later use npm trusted publishing.
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Changesets tags a single package as @scope/name@version. Installers
+      # consume vVERSION tags, so normalize the release before building assets.
+      - name: Finalize stable release
+        if: steps.changesets.outputs.published == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
+          PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
+          HAS_APP: ${{ vars.APP_ID != '' }}
+        run: |
+          PACKAGE=$(node -p "require('./package.json').name")
+          VERSION=$(node -e 'const p=JSON.parse(process.env.PUBLISHED_PACKAGES); const n=JSON.parse(require("fs").readFileSync("package.json")).name; const v=p.find(x=>x.name===n)?.version; if(!v) process.exit(1); process.stdout.write(v)')
+          TAG="v${VERSION}"
+          SCOPED_TAG="${PACKAGE}@${VERSION}"
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            git fetch origin "refs/tags/${TAG}:refs/tags/${TAG}"
+            if [ "$(git rev-list -n 1 "$TAG")" != "$(git rev-parse HEAD)" ]; then
+              echo "::error::${TAG} points at a different commit; refusing to retarget the release."
+              exit 1
+            fi
+          else
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
+          if gh release view "$SCOPED_TAG" >/dev/null 2>&1; then
+            gh release edit "$SCOPED_TAG" --tag "$TAG" --title "$TAG"
+          elif ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" --title "$TAG" --generate-notes
+          fi
+          # GITHUB_TOKEN-created releases do not trigger the release event.
+          if [ "$HAS_APP" != true ]; then
+            gh workflow run binaries.yml --ref main -f "tag=$TAG"
+          fi
 
   # Manually-dispatched beta prerelease from main: version is the next stable
   # release per pending changesets with a -beta.N suffix (e.g. v1.6.0-beta.1),
@@ -75,9 +113,9 @@ jobs:
   # unaffected. This job lives in this file because npm trusted publishing
   # authorizes a single workflow file per package.
   #
-  # Users opt in with: npm install -g @fission-ai/openspec@beta
+  # Users opt in with: npm install -g @yurychang/openspec@beta
   beta:
-    if: github.repository == 'Fission-AI/OpenSpec' && github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    if: github.repository == 'yurychang/OpenSpec' && github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -120,7 +158,7 @@ jobs:
             if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
               TAG_EXISTS=true
             fi
-            if npm view "@fission-ai/openspec@${VERSION}" version >/dev/null 2>&1; then
+            if npm view "@yurychang/openspec@${VERSION}" version >/dev/null 2>&1; then
               NPM_EXISTS=true
             fi
             if gh release view "${TAG}" >/dev/null 2>&1; then
@@ -143,16 +181,39 @@ jobs:
       - name: Set package version
         env:
           VERSION: ${{ steps.version.outputs.version }}
-        run: npm version "$VERSION" --no-git-tag-version
+        run: |
+          TAG="v${VERSION}"
+          if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
+            git checkout --detach "$TAG"
+          fi
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
+          # Binary builds check out the tag, so the beta version must be committed.
+          git add package.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m "chore(release): ${TAG}"
+          fi
+
+      # Preserve the exact published source even if npm succeeds and a later
+      # release step fails. A retry checks out this tag above.
+      - name: Preserve beta source
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          TAG="v${VERSION}"
+          if ! git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
+            git tag "$TAG"
+          fi
+          git push origin "refs/tags/${TAG}"
 
       # prepublishOnly runs the build. npm authentication handled via OIDC
       # trusted publishing (no token needed).
       - name: Publish to npm under the beta dist-tag
         env:
           VERSION: ${{ steps.version.outputs.version }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          if npm view "@fission-ai/openspec@${VERSION}" version >/dev/null 2>&1; then
-            echo "@fission-ai/openspec@${VERSION} is already on npm; skipping publish."
+          if npm view "@yurychang/openspec@${VERSION}" version >/dev/null 2>&1; then
+            echo "@yurychang/openspec@${VERSION} is already on npm; skipping publish."
             exit 0
           fi
           npm publish --tag beta
@@ -188,5 +249,6 @@ jobs:
               --prerelease \
               --generate-notes \
               --title "${TAG}" \
-              --notes "Beta prerelease. Install with \`npm install -g @fission-ai/openspec@beta\`."
+              --notes "Beta prerelease. Install with \`npm install -g @yurychang/openspec@beta\`."
           fi
+          gh workflow run binaries.yml --ref main -f "tag=$TAG"

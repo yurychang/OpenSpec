@@ -13,6 +13,7 @@ export const OPENSPEC_SKILL_NAMES = [
   'openspec-verify-change',
   'openspec-onboard',
   'openspec-propose',
+  'openspec-auto',
 ] as const;
 
 export const OPENSPEC_MARKERS = {

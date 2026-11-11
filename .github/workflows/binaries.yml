@@ -57,7 +57,7 @@ jobs:
         if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
         run: |
           version=$(node -p "require('./package.json').version")
-          # Tags are v1.2.3, or @fission-ai/openspec@1.2.3 as changesets first
+          # Tags are v1.2.3, or @yurychang/openspec@1.2.3 as changesets first
           # creates them. Exact match: a suffix match would let v11.0.0 pass for 1.0.0.
           tag_version=${REF##*@}
           tag_version=${tag_version#v}
@@ -224,7 +224,7 @@ jobs:
               Copy-Item "dist-bin/openspec-$env:ASSET.zip" $d
               if ($tag -eq 'v1.1.0') { Copy-Item dist-bin/SHA256SUMS $d }
             }
-            Set-Content -Path (Join-Path $site 'releases.atom') -Value ('<feed>' + (('v1.2.0', 'v1.1.0' | ForEach-Object { "<link href=""https://github.com/Fission-AI/OpenSpec/releases/tag/$_""/>" }) -join '') + '</feed>')
+            Set-Content -Path (Join-Path $site 'releases.atom') -Value ('<feed>' + (('v1.2.0', 'v1.1.0' | ForEach-Object { "<link href=""https://github.com/yurychang/OpenSpec/releases/tag/$_""/>" }) -join '') + '</feed>')
             foreach ($shell in 'pwsh', 'powershell') {
               $dir = Join-Path $env:RUNNER_TEMP "fallback $shell"
               $out = & $shell -NoProfile -Command "`$env:OPENSPEC_RELEASES_URL='http://127.0.0.1:8765/site/releases'; `$env:OPENSPEC_INSTALL_DIR='$dir'; irm http://127.0.0.1:8765/install.ps1 | iex" 2>&1 | Out-String
@@ -278,7 +278,7 @@ jobs:
   release:
     name: Attach to release
     needs: verify
-    if: github.repository == 'Fission-AI/OpenSpec' && (github.event_name == 'release' || github.event_name == 'workflow_dispatch')
+    if: github.repository == 'yurychang/OpenSpec' && (github.event_name == 'release' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -299,7 +299,7 @@ jobs:
           cd dist-bin
           sha256sum --check SHA256SUMS
           # A release can be retagged while this runs (the scoped
-          # @fission-ai/openspec@x.y.z tag corrected to vx.y.z), so find it by
+          # @yurychang/openspec@x.y.z tag corrected to vx.y.z), so find it by
           # id, which never changes, and upload to whatever tag it has now.
           tag="$REF"
           if [ -n "$RELEASE_ID" ]; then

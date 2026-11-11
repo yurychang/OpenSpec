@@ -5,6 +5,8 @@
  */
 
 import {
+  getAutoSkillTemplate,
+  getOpsxAutoCommandTemplate,
   getExploreSkillTemplate,
   getNewChangeSkillTemplate,
   getContinueChangeSkillTemplate,
@@ -81,6 +83,7 @@ export interface CommandTemplateEntry {
  */
 export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemplateEntry[] {
   const all: SkillTemplateEntry[] = [
+    { template: getAutoSkillTemplate(), dirName: 'openspec-auto', workflowId: 'auto' },
     { template: getExploreSkillTemplate(), dirName: 'openspec-explore', workflowId: 'explore' },
     { template: getNewChangeSkillTemplate(), dirName: 'openspec-new-change', workflowId: 'new' },
     { template: getContinueChangeSkillTemplate(), dirName: 'openspec-continue-change', workflowId: 'continue' },
@@ -114,6 +117,7 @@ export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemp
  */
 export function getCommandTemplates(workflowFilter?: readonly string[]): CommandTemplateEntry[] {
   const all: CommandTemplateEntry[] = [
+    { template: getOpsxAutoCommandTemplate(), id: 'auto' },
     { template: getOpsxExploreCommandTemplate(), id: 'explore' },
     { template: getOpsxNewCommandTemplate(), id: 'new' },
     { template: getOpsxContinueCommandTemplate(), id: 'continue' },

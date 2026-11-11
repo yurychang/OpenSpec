@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/Fission-AI/OpenSpec">
+  <a href="https://github.com/yurychang/OpenSpec">
     <picture>
       <source srcset="assets/openspec_bg.png">
       <img src="assets/openspec_bg.png" alt="OpenSpec logo">
@@ -8,8 +8,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Fission-AI/OpenSpec/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Fission-AI/OpenSpec/actions/workflows/ci.yml/badge.svg" /></a>
-  <a href="https://www.npmjs.com/package/@fission-ai/openspec"><img alt="npm version" src="https://img.shields.io/npm/v/@fission-ai/openspec?style=flat-square" /></a>
+  <a href="https://github.com/yurychang/OpenSpec/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/yurychang/OpenSpec/actions/workflows/ci.yml/badge.svg" /></a>
+  <a href="https://www.npmjs.com/package/@yurychang/openspec"><img alt="npm version" src="https://img.shields.io/npm/v/@yurychang/openspec?style=flat-square" /></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" /></a>
   <a href="https://discord.gg/YctCnvvshC"><img alt="Discord" src="https://img.shields.io/discord/1411657095639601154?style=flat-square&logo=discord&logoColor=white&label=Discord&suffix=%20online" /></a>
 </p>
@@ -17,9 +17,9 @@
 <details>
 <summary><strong>The most loved spec framework.</strong></summary>
 
-[![Stars](https://img.shields.io/github/stars/Fission-AI/OpenSpec?style=flat-square&label=Stars)](https://github.com/Fission-AI/OpenSpec/stargazers)
-[![Downloads](https://img.shields.io/npm/dm/@fission-ai/openspec?style=flat-square&label=Downloads/mo)](https://www.npmjs.com/package/@fission-ai/openspec)
-[![Contributors](https://img.shields.io/github/contributors/Fission-AI/OpenSpec?style=flat-square&label=Contributors)](https://github.com/Fission-AI/OpenSpec/graphs/contributors)
+[![Stars](https://img.shields.io/github/stars/yurychang/OpenSpec?style=flat-square&label=Stars)](https://github.com/yurychang/OpenSpec/stargazers)
+[![Downloads](https://img.shields.io/npm/dm/@yurychang/openspec?style=flat-square&label=Downloads/mo)](https://www.npmjs.com/package/@yurychang/openspec)
+[![Contributors](https://img.shields.io/github/contributors/yurychang/OpenSpec?style=flat-square&label=Contributors)](https://github.com/yurychang/OpenSpec/graphs/contributors)
 
 </details>
 <p></p>
@@ -120,16 +120,18 @@ Solo, OpenSpec keeps you and your AI honest on a single repo. On a team, the har
 Install OpenSpec. On macOS or Linux, in your terminal:
 
 ```bash
-curl -fsSL https://openspec.dev/cli/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | sh
 ```
 
 On Windows, in PowerShell:
 
 ```powershell
-irm https://openspec.dev/cli/install.ps1 | iex
+irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 ```
 
-Prefer a package manager? `npm install -g @fission-ai/openspec@latest` (needs Node.js 22.12.0 or higher) or the official [Homebrew formula](https://formulae.brew.sh/formula/openspec), `brew install openspec`.
+This is the [yurychang fork](FORK.md). Its executable is still `openspec`. Release-based installs need a published fork release; before the first release, use `npm install -g github:yurychang/OpenSpec#main` (Node.js 22.12.0+ and Git).
+
+Prefer a package manager? After publication, use `npm install -g @yurychang/openspec@latest`. For Homebrew and the other install methods, see [Installation](docs-lab/start/installation.md).
 
 Then navigate to your project directory and initialize:
 
@@ -138,12 +140,13 @@ cd your-project
 openspec init
 ```
 
-> **Want your AI to do it?** Paste the [setup prompt](https://openspec.dev/docs/installation#install-with-your-ai-assistant) into your coding assistant — it installs the CLI, runs `openspec init`, and verifies the result.
+> **Want your AI to do it?** Fetch the fork's [setup prompt](install.md) in your coding assistant.
 
 Now talk to your AI:
 
 - **Not sure what to build yet?** Start with `/opsx:explore`, a no-stakes thinking partner that reads your code, weighs options, and shapes a plan before any code gets written. ([Quickstart](https://openspec.dev/docs/quickstart))
 - **Already know what you want?** Go straight to `/opsx:propose <what-you-want-to-build>`.
+- **Want planning and implementation in one run?** Explicitly run `/opsx:auto [change-name]` (Codex: `$openspec-auto`). It reports unfinished exploration, or completes the remaining planning and implementation when the scope is settled. See [the skill contract](docs-lab/reference/skills.md#openspec-auto).
 
 Both are in the default profile. If you want the expanded workflow (`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:bulk-archive`, `/opsx:onboard`), select it with `openspec config profile` and apply with `openspec update`.
 
@@ -152,11 +155,11 @@ Both are in the default profile. If you want the expanded workflow (`/opsx:new`,
 > [!NOTE]
 > Not sure if your tool is supported? [View the full list](https://openspec.dev/docs/supported-tools) – we support 30+ tools and growing.
 >
-> Also works with npm, Homebrew, pnpm, yarn, bun, and Nix. [See installation options](https://openspec.dev/docs/installation).
+> Also works with npm, Homebrew, pnpm, yarn, bun, Deno, and Nix. [See fork installation options](docs-lab/start/installation.md).
 
 ## Docs
 
-Full documentation lives at **[openspec.dev/docs](https://openspec.dev/docs)**.
+Fork documentation lives in **[docs-lab/](docs-lab/README.md)**. The upstream site at [openspec.dev/docs](https://openspec.dev/docs) describes upstream releases and does not include this fork's additions.
 
 → **[Quickstart](https://openspec.dev/docs/quickstart)**: your first change, start to finish<br>
 → **[Set up your project](https://openspec.dev/docs/setup)**: what `openspec init` installs<br>
@@ -197,13 +200,13 @@ AI coding assistants are powerful but unpredictable when requirements live only 
 With the standalone install, run `openspec install`. If you installed with npm:
 
 ```bash
-npm install -g @fission-ai/openspec@latest
+npm install -g @yurychang/openspec@latest
 ```
 
 If you installed OpenSpec with Homebrew:
 
 ```bash
-brew upgrade openspec
+brew upgrade --fetch-HEAD yurychang/openspec/openspec
 ```
 
 **Refresh agent instructions**

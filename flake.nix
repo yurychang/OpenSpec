@@ -91,7 +91,7 @@
 
           meta = with final.lib; {
             description = "AI-native system for spec-driven development";
-            homepage = "https://github.com/Fission-AI/OpenSpec";
+            homepage = "https://github.com/yurychang/OpenSpec";
             license = licenses.mit;
             maintainers = [ ];
             mainProgram = "openspec";

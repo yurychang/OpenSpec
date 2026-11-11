@@ -55,7 +55,7 @@ describe.skipIf(process.platform === 'win32')('standalone installer (install.sh)
   function feed(site: string, tags: string[]) {
     fs.mkdirSync(path.join(root, site), { recursive: true });
     const entries = tags.map(
-      (tag) => `<entry><link rel="alternate" type="text/html" href="https://github.com/Fission-AI/OpenSpec/releases/tag/${tag}"/></entry>`
+      (tag) => `<entry><link rel="alternate" type="text/html" href="https://github.com/yurychang/OpenSpec/releases/tag/${tag}"/></entry>`
     );
     fs.writeFileSync(path.join(root, site, 'releases.atom'), `<feed>${entries.join('')}</feed>`);
   }
@@ -118,7 +118,7 @@ describe.skipIf(process.platform === 'win32')('standalone installer (install.sh)
     release('nothing-complete', 'v1.2.0', { complete: false });
 
     // Betas and the scoped tag changesets creates first are not stable v-tags.
-    feed('noise', ['v1.3.0-beta.1', '%40fission-ai%2Fopenspec%401.3.0', 'v1.2.0']);
+    feed('noise', ['v1.3.0-beta.1', '%40yurychang%2Fopenspec%401.3.0', 'v1.2.0']);
     release('noise', 'v1.3.0-beta.1');
     release('noise', 'v1.2.0');
 
@@ -153,7 +153,7 @@ describe.skipIf(process.platform === 'win32')('standalone installer (install.sh)
     expect(result.code).not.toBe(0);
     expect(result.installed).toBeNull();
     expect(result.out).toContain('found no release with the standalone files');
-    expect(result.out).toContain('npm install -g @fission-ai/openspec');
+    expect(result.out).toContain('npm install -g @yurychang/openspec');
   });
 
   it('installs a pinned version even when it is not the newest', async () => {

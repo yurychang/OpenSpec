@@ -28,7 +28,7 @@ Whether init installs workflows as skills, as slash commands, or both. Defaults 
 
 ### workflows
 
-The workflows a `custom` profile installs; ignored when the profile is `core`. Valid ids: `propose`, `explore`, `new`, `continue`, `apply`, `update`, `ff`, `sync`, `archive`, `bulk-archive`, `verify`, `onboard`.
+The workflows a `custom` profile installs; ignored when the profile is `core`. Valid ids: `propose`, `explore`, `auto`, `new`, `continue`, `apply`, `update`, `ff`, `sync`, `archive`, `bulk-archive`, `verify`, `onboard`.
 
 ### featureFlags
 

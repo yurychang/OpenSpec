@@ -1,6 +1,6 @@
 # Installs the standalone `openspec.exe` (no Node.js needed) on Windows.
 #
-#   irm https://openspec.dev/cli/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 #
 # $env:OPENSPEC_VERSION      release to install (default: the newest complete one), e.g. v1.15.0
 # $env:OPENSPEC_INSTALL_DIR  where to put it (default: %LOCALAPPDATA%\Programs\openspec)
@@ -27,7 +27,7 @@
   $arch = switch ("$osArch") {
     { $_ -in 'X64', 'AMD64' } { 'x64' }
     'Arm64' { 'arm64' }
-    default { throw "openspec install: unsupported CPU $_. Install with npm instead: npm install -g @fission-ai/openspec" }
+    default { throw "openspec install: unsupported CPU $_. Install with npm instead: npm install -g @yurychang/openspec" }
   }
   $asset = "openspec-windows-$arch.exe"
 
@@ -43,10 +43,10 @@
       throw "openspec install: $label must use https (or http to localhost): $value"
     }
   }
-  $releases = if ($env:OPENSPEC_RELEASES_URL) { $env:OPENSPEC_RELEASES_URL.TrimEnd('/') } else { 'https://github.com/Fission-AI/OpenSpec/releases' }
+  $releases = if ($env:OPENSPEC_RELEASES_URL) { $env:OPENSPEC_RELEASES_URL.TrimEnd('/') } else { 'https://github.com/yurychang/OpenSpec/releases' }
   Assert-Source 'OPENSPEC_RELEASES_URL' $releases
   if ($env:OPENSPEC_DOWNLOAD_URL) { Assert-Source 'OPENSPEC_DOWNLOAD_URL' $env:OPENSPEC_DOWNLOAD_URL }
-  $npmHint = 'Or install with npm (Node.js 22.12+): npm install -g @fission-ai/openspec'
+  $npmHint = 'Or install with npm (Node.js 22.12+): npm install -g @yurychang/openspec'
   $dir = if ($env:OPENSPEC_INSTALL_DIR) { $env:OPENSPEC_INSTALL_DIR } else { Join-Path $env:LOCALAPPDATA 'Programs\openspec' }
   # Absolute, so the user PATH entry works from any directory.
   $dir = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($dir)

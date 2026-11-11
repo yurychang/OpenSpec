@@ -10,7 +10,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: Question or help with your setup
-    url: https://github.com/Fission-AI/OpenSpec/discussions/categories/q-a
+    url: https://github.com/yurychang/OpenSpec/discussions/categories/q-a
     about: Not sure whether it is a bug? Ask here and we will help you narrow it down.
   - name: Discord
     url: https://discord.gg/YctCnvvshC

@@ -19,6 +19,7 @@ import {
  * workflow is added without a trigger phrase.
  */
 const NATURAL_VERB_BY_WORKFLOW: Record<string, string> = {
+  auto: 'auto',
   explore: 'explore',
   new: 'new change',
   continue: 'continue',

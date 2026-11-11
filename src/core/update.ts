@@ -649,7 +649,7 @@ export class UpdateCommand {
         }
         this.log();
       }
-      this.log(`Learn more: ${chalk.cyan('https://github.com/Fission-AI/OpenSpec')}`);
+      this.log(`Learn more: ${chalk.cyan('https://github.com/yurychang/OpenSpec')}`);
     }
 
     await this.syncCopilotCloudFiles(resolvedProjectPath, configuredAndNewTools);

@@ -1,6 +1,6 @@
 # OpenSpec documentation site
 
-The marketing and documentation site for [OpenSpec](https://github.com/Fission-AI/OpenSpec), built with [Fumadocs](https://fumadocs.dev) and [Next.js](https://nextjs.org). It is configured as a **static export**, so it deploys to Cloudflare Pages (or any static host) with no server.
+The marketing and documentation site for [OpenSpec](https://github.com/yurychang/OpenSpec), built with [Fumadocs](https://fumadocs.dev) and [Next.js](https://nextjs.org). It is configured as a **static export**, so it deploys to Cloudflare Pages (or any static host) with no server.
 
 > **The doc pages are generated, not authored here.** The repository's `docs/*.md` files are the single source of truth. `scripts/sync-docs.mjs` mirrors them into `content/docs/` (as `.md`) on every build, so the site stays current automatically — locally and in CI. Edit `../docs`, not `content/docs/`. Only the marketing landing page (`app/(home)/page.tsx`) is hand-authored. See [Keeping docs in sync](#keeping-docs-in-sync).
 
@@ -91,12 +91,15 @@ re-mirrors them before producing the static export.
 
 ## Automated deploys
 
-The `openspec-docs` Cloudflare Pages project is connected directly to
-`Fission-AI/OpenSpec`. Cloudflare rebuilds and deploys `main` when `docs/**` or
-`website/**` changes, and creates preview deployments for pull requests.
+The upstream `openspec.dev` deployment does not publish this fork's docs. To
+publish the fork, connect a separate Cloudflare Pages project to
+`yurychang/OpenSpec` with the settings above. Include `docs-lab/**` and
+`website/**` in the build watch paths. Set `NEXT_PUBLIC_SITE_URL` to the fork's
+own domain.
 
-Once the site changes, that's it — a `docs/*.md` edit merged to `main` re-mirrors
-and redeploys with no manual step.
+After that connection is configured, merged documentation changes rebuild the
+site and pull requests can get preview deployments. Repository changes alone
+do not create a Cloudflare project or configure its domain.
 
 No GitHub Actions workflow, deployment secrets, or repository variables are
 required for the Git-connected Pages project. Cloudflare reports production and
