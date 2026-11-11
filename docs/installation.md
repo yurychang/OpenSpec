@@ -18,7 +18,7 @@ Windows (PowerShell):
 irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 ```
 
-The installer picks the newest release whose files are all attached and the right file for your machine, checks it against the release's `SHA256SUMS`, and installs it to `~/.local/bin` (Windows: `%LOCALAPPDATA%\Programs\openspec`, added to your user `PATH`). Set `OPENSPEC_INSTALL_DIR` to choose another folder, or `OPENSPEC_VERSION=v1.15.0` to pin a release. Prefer npm or another package manager? See [Package Managers](#package-managers).
+The installer picks the newest release whose files are all attached and the right file for your machine, checks it against the release's `SHA256SUMS`, and installs it to `~/.local/bin` (Windows: `%LOCALAPPDATA%\Programs\openspec`, added to your user `PATH`). Set `OPENSPEC_INSTALL_DIR` to choose another folder, or `OPENSPEC_VERSION=v1.18.0` to pin a release. Prefer npm or another package manager? See [Package Managers](#package-managers).
 
 To install by hand, download your platform's file from the [latest release](https://github.com/yurychang/OpenSpec/releases/latest), unpack the archive to get `openspec` (`openspec.exe` on Windows), make it executable on macOS and Linux (`chmod +x openspec`), and put it on your `PATH`:
 
@@ -70,7 +70,7 @@ Yarn 2 and later (Berry) removed the `global` command. On those versions, instal
 ### deno
 
 Deno sometimes has issues parsing the @latest tag, but we can specify a version while installing initially.
-If that happens, you could try to change the @latest tag with the version, something like `@^1.3.1`
+If that happens, use the fork's version range, such as `@^1.18.0`.
 
 ```bash
 deno install --global \
@@ -79,7 +79,7 @@ deno install --global \
 # or
 deno install --global \
   --allow-read --allow-write --allow-env --allow-sys=cpus,homedir --allow-net=edge.openspec.dev \
-  npm:@yurychang/openspec@^1.3.1
+  npm:@yurychang/openspec@^1.18.0
 ```
 
 Note: If your subcommands launch external tools, like config edit, feedback, or workspace open, you may need a scoped --allow-run=<program>.

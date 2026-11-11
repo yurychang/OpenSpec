@@ -96,7 +96,7 @@ deno install --global \
 Some commands launch another program: [`openspec config edit`](../reference/cli.md) opens your editor. Deno interrupts those with a permission prompt on every run. To stop it asking, add a scoped `--allow-run=<program>` to the install command.
 
 > [!NOTE]
-> If Deno can't resolve `@latest`, pin a version range instead: `npm:@yurychang/openspec@^1.7.0`.
+> If Deno can't resolve `@latest`, pin a version range instead: `npm:@yurychang/openspec@^1.18.0`.
 
 ### Nix
 
@@ -163,16 +163,16 @@ Next, [set up your project](setup.md). If your assistant already ran init, that 
 To pick a version or a folder, set a variable before `sh`:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | OPENSPEC_VERSION=v1.15.0 sh
+curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | OPENSPEC_VERSION=v1.18.0 sh
 ```
 
-- **`OPENSPEC_VERSION`**: the release to install, such as `v1.15.0`. The default is the newest release.
+- **`OPENSPEC_VERSION`**: the release to install, such as `v1.18.0`. The default is the newest release.
 - **`OPENSPEC_INSTALL_DIR`**: the folder to install to. The default is `~/.local/bin` (Windows: `%LOCALAPPDATA%\Programs\openspec`).
 
 On Windows, set the variable first:
 
 ```powershell
-$env:OPENSPEC_VERSION = 'v1.15.0'
+$env:OPENSPEC_VERSION = 'v1.18.0'
 irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 ```
 

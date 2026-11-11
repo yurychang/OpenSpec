@@ -2,7 +2,7 @@
 #
 #   irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 #
-# $env:OPENSPEC_VERSION      release to install (default: the newest complete one), e.g. v1.15.0
+# $env:OPENSPEC_VERSION      release to install (default: the newest complete one), e.g. v1.18.0
 # $env:OPENSPEC_INSTALL_DIR  where to put it (default: %LOCALAPPDATA%\Programs\openspec)
 # $env:OPENSPEC_INSTALL_NAME file name to install as (default: openspec.exe)
 # $env:OPENSPEC_RELEASES_URL releases page to install from (default: GitHub's; mirrors, testing)

@@ -3,7 +3,7 @@
 #
 #   curl -fsSL https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.sh | sh
 #
-# OPENSPEC_VERSION      release to install (default: the newest complete one), e.g. v1.15.0
+# OPENSPEC_VERSION      release to install (default: the newest complete one), e.g. v1.18.0
 # OPENSPEC_INSTALL_DIR  where to put it (default: ~/.local/bin)
 # OPENSPEC_INSTALL_NAME file name to install as (default: openspec)
 # OPENSPEC_RELEASES_URL releases page to install from (default: GitHub's; mirrors, testing)

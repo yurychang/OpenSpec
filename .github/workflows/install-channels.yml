@@ -111,6 +111,45 @@ jobs:
           brew test yurychang/openspec/openspec
           test "$(openspec --version)" = "$(node -p "require('./package.json').version")"
 
+  standalone-release:
+    if: inputs.version != '' && github.event_name == 'workflow_dispatch'
+    name: Public standalone (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+      OPENSPEC_TELEMETRY: '0'
+      OPENSPEC_NO_UPDATE_CHECK: '1'
+    steps:
+      - name: Install the public shell script and CLI installer
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          curl -fsSL "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/main/scripts/binary/install.sh" -o "$RUNNER_TEMP/install.sh"
+          OPENSPEC_INSTALL_DIR="$RUNNER_TEMP/standalone" OPENSPEC_VERSION="v$RELEASE_VERSION" sh "$RUNNER_TEMP/install.sh"
+          test "$("$RUNNER_TEMP/standalone/openspec" --version)" = "$RELEASE_VERSION"
+          OPENSPEC_INSTALL_DIR="$RUNNER_TEMP/cli-install" "$RUNNER_TEMP/standalone/openspec" install "$RELEASE_VERSION"
+          test "$("$RUNNER_TEMP/cli-install/openspec" --version)" = "$RELEASE_VERSION"
+      - name: Install the public PowerShell script and CLI installer
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $script = Join-Path $env:RUNNER_TEMP 'install.ps1'
+          Invoke-WebRequest "https://raw.githubusercontent.com/$env:GITHUB_REPOSITORY/main/scripts/binary/install.ps1" -OutFile $script
+          $env:OPENSPEC_INSTALL_DIR = Join-Path $env:RUNNER_TEMP 'standalone'
+          $env:OPENSPEC_VERSION = "v$env:RELEASE_VERSION"
+          & $script
+          $exe = Join-Path $env:OPENSPEC_INSTALL_DIR 'openspec.exe'
+          if ((& $exe --version) -ne $env:RELEASE_VERSION) { throw 'Public installer version mismatch' }
+          $env:OPENSPEC_INSTALL_DIR = Join-Path $env:RUNNER_TEMP 'cli-install'
+          & $exe install $env:RELEASE_VERSION
+          if ($LASTEXITCODE -ne 0) { throw 'CLI installer failed' }
+          if ((& (Join-Path $env:OPENSPEC_INSTALL_DIR 'openspec.exe') --version) -ne $env:RELEASE_VERSION) { throw 'CLI installer version mismatch' }
+
   deno:
     if: inputs.version != '' && github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
