@@ -1,5 +1,20 @@
 # @yurychang/openspec
 
+## 1.18.0
+
+### Minor Changes
+
+- [#1](https://github.com/yurychang/OpenSpec/pull/1) [`d56a139`](https://github.com/yurychang/OpenSpec/commit/d56a139b85ae12bb617e0fee03f59146a46a404d) Thanks [@yurychang](https://github.com/yurychang)! - ### New Features
+  
+  - Add the explicit auto workflow to check progress, summarize unfinished exploration, and complete planning and implementation together once exploration is settled.
+  - Install and update the yurychang fork through its npm package, standalone releases, Homebrew HEAD formula, Nix flake, source checkout, and skills.sh distribution.
+
+### Patch Changes
+
+- [#2229](https://github.com/Fission-AI/OpenSpec/pull/2229) [`5cd4f7f`](https://github.com/yurychang/OpenSpec/commit/5cd4f7f27050a9cf2ad0edeab87cc250caaa1852) Thanks [@clay-good](https://github.com/clay-good)! - On Windows, `openspec completion install` run from cmd.exe no longer edits your PowerShell profiles. OpenSpec now tells cmd.exe and PowerShell apart, says cmd.exe isn't supported, and stops suggesting the completion tip there.
+
+- [#2228](https://github.com/Fission-AI/OpenSpec/pull/2228) [`a959be7`](https://github.com/yurychang/OpenSpec/commit/a959be77cf045ea3156dc5089c9e2f1d6ce9ce70) Thanks [@clay-good](https://github.com/clay-good)! - Read a task that wraps onto several lines in tasks.md as one task. `openspec instructions apply` used to cut a wrapped task off at its first line break; it now returns the full text, including lines continued with a trailing `\`.
+
 ## 1.17.0
 
 ### Minor Changes
