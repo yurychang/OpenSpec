@@ -23,6 +23,8 @@ const env = {
   npm_config_cache: path.join(root, 'npm-cache'),
   YARN_CACHE_FOLDER: path.join(root, 'yarn-cache'),
   BUN_INSTALL_CACHE_DIR: path.join(root, 'bun-cache'),
+  BUN_INSTALL_GLOBAL_DIR: path.join(root, 'global'),
+  BUN_INSTALL_BIN: bin,
   OPENSPEC_TELEMETRY: '0',
   OPENSPEC_NO_UPDATE_CHECK: '1',
 };
@@ -57,7 +59,10 @@ try {
       if (entry.isDirectory() && /^\d+$/.test(entry.name)) moduleRoots.push(path.join(globalRoot, entry.name, 'node_modules'));
     }
   }
-  const manifest = moduleRoots.map(dir => path.join(dir, ...pkg.name.split('/'), 'package.json')).find(file => fs.existsSync(file));
+  const manifests = moduleRoots.map(dir => path.join(dir, ...pkg.name.split('/'), 'package.json'));
+  // Bun may retain a tarball specifier's directory name instead of its scope.
+  manifests.push(path.join(path.resolve(fs.realpathSync(cli), '..', '..'), 'package.json'));
+  const manifest = manifests.find(file => fs.existsSync(file));
   assert(manifest, 'Installed package manifest missing');
   const installed = JSON.parse(fs.readFileSync(manifest, 'utf8'));
   assert.equal(installed.name, pkg.name, 'Installed the wrong distribution');
