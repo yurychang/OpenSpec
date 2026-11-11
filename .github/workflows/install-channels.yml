@@ -96,6 +96,7 @@ jobs:
     timeout-minutes: 25
     env:
       HOMEBREW_NO_AUTO_UPDATE: '1'
+      SOURCE_BRANCH: ${{ github.head_ref || github.ref_name }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install and test this fork's HEAD formula
@@ -104,8 +105,8 @@ jobs:
           tap=$(brew --repository yurychang/openspec)
           mkdir -p "$tap/Formula"
           cp Formula/openspec.rb "$tap/Formula/openspec.rb"
-          # Test this exact PR revision while main still has the old source.
-          ruby -e 'p=ARGV[0]; s=File.read(p); s.sub!(%{branch: "main"}, %{revision: "#{ENV.fetch("GITHUB_SHA")}"}); File.write(p,s)' "$tap/Formula/openspec.rb"
+          # Homebrew fetches a branch, not GitHub's synthetic PR merge ref.
+          ruby -e 'p=ARGV[0]; s=File.read(p); s.sub!(%{branch: "main"}, "branch: #{ENV.fetch("SOURCE_BRANCH").dump}"); File.write(p,s)' "$tap/Formula/openspec.rb"
           brew install --HEAD yurychang/openspec/openspec
           brew test yurychang/openspec/openspec
           test "$(openspec --version)" = "$(node -p "require('./package.json').version")"
