@@ -27,5 +27,6 @@ try {
   console.log('\n✅ Build completed successfully!');
 } catch (error) {
   console.error('\n❌ Build failed!');
+  console.error(error instanceof Error ? error.message : error);
   process.exit(1);
 }

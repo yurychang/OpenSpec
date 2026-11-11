@@ -30,7 +30,7 @@ const commands = {
   npm: ['install', '--global', '--prefix', root, '--no-audit', '--no-fund', spec],
   pnpm: ['add', '--global', '--global-dir', path.join(root, 'global'), '--global-bin-dir', bin, spec],
   yarn: ['global', 'add', spec, '--prefix', root, '--global-folder', path.join(root, 'global'), '--non-interactive'],
-  bun: ['add', '--global', '--global-dir', path.join(root, 'global'), '--global-bin-dir', bin, spec],
+  bun: ['add', '--global', spec],
 };
 assert(commands[manager], `Unsupported package manager: ${manager}`);
 function run(command, args, cwd = root) {
@@ -41,6 +41,11 @@ function run(command, args, cwd = root) {
   return result.stdout.trim();
 }
 try {
+  if (manager === 'bun') {
+    fs.mkdirSync(env.XDG_CONFIG_HOME, { recursive: true });
+    fs.writeFileSync(path.join(env.XDG_CONFIG_HOME, '.bunfig.toml'),
+      `[install]\nglobalDir = ${JSON.stringify(path.join(root, 'global'))}\nglobalBinDir = ${JSON.stringify(bin)}\n`);
+  }
   run(manager, commands[manager]);
   const cli = path.join(bin, 'openspec');
   assert(fs.existsSync(cli), `Global executable missing: ${cli}`);

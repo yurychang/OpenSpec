@@ -123,22 +123,18 @@ locations (`share/bash-completion/completions`, `share/fish/vendor_completions.d
 
 ### From source
 
-With Node.js 22.12.0+ and Git, install the current fork directly:
-
-```bash
-npm install -g github:yurychang/OpenSpec#main
-```
-
-For local development, build and link a checkout:
+With Node.js 22.12.0+, Git, and Corepack, build and install a checkout:
 
 ```bash
 git clone https://github.com/yurychang/OpenSpec.git
 cd OpenSpec
 corepack pnpm install --frozen-lockfile
-npm link
+npm install --global .
 ```
 
-Source installs run `prepare` to build the CLI. They need build dependencies and must allow that script. To update a source install, repeat its install command; local checkouts need a pull and rebuild.
+Keep the checkout: the global command links to it. To update, pull the fork, rerun `corepack pnpm install --frozen-lockfile`, and rebuild. For local development, `npm link` is another way to create the global link.
+
+Use this checkout workflow for source installs. A one-step global Git install can fail when npm runs `prepare` without the build dependencies. See [npm/cli#8440](https://github.com/npm/cli/issues/8440).
 
 ### Skills only (skills.sh)
 

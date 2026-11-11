@@ -6,7 +6,7 @@ I want you to install OpenSpec and set up my project. Follow the steps below in 
 
 OBJECTIVE: Install the OpenSpec CLI globally and initialize the user's project.
 
-SOURCE: This prompt installs the `yurychang/OpenSpec` fork. Use only its installers, `@yurychang/openspec` npm package, or its source checkout. The upstream `openspec.dev` installer and `brew install openspec` install a different distribution. Before the first fork release, use `npm install -g github:yurychang/OpenSpec#main` with Node.js 22.12.0+ and Git, after showing the command to the user.
+SOURCE: This prompt installs the `yurychang/OpenSpec` fork. Use only its installers, `@yurychang/openspec` npm package, or its source checkout. The upstream `openspec.dev` installer and `brew install openspec` install a different distribution. Before the first fork release, follow the source-checkout commands at https://github.com/yurychang/OpenSpec/blob/main/docs-lab/start/installation.md#from-source after showing them to the user. Do not use a one-step global Git install: npm may omit the build dependencies during prepare.
 
 DONE WHEN:
 

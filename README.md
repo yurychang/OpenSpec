@@ -129,7 +129,7 @@ On Windows, in PowerShell:
 irm https://raw.githubusercontent.com/yurychang/OpenSpec/main/scripts/binary/install.ps1 | iex
 ```
 
-This is the [yurychang fork](FORK.md). Its executable is still `openspec`. Release-based installs need a published fork release; before the first release, use `npm install -g github:yurychang/OpenSpec#main` (Node.js 22.12.0+ and Git).
+This is the [yurychang fork](FORK.md). Its executable is still `openspec`. Release-based installs need a published fork release; before the first release, [build and install a source checkout](docs-lab/start/installation.md#from-source).
 
 Prefer a package manager? After publication, use `npm install -g @yurychang/openspec@latest`. For Homebrew and the other install methods, see [Installation](docs-lab/start/installation.md).
 
