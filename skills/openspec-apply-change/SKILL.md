@@ -112,11 +112,13 @@ In both branches, never create the root as a side effect: do not run `openspec i
    - Rerun the apply instructions and confirm that task is now done and progress changed
    - Continue to next task
 
+   For development errors (such as build failures, test failures, or implementation bugs), investigate and attempt to fix them within the agreed scope, then rerun the relevant checks. Pause only if you cannot make progress without user input or resolving the error requires a requirements, scope, or design decision.
+
    **Pause if:**
    - Task is unclear → ask for clarification
    - Implementation reveals a design issue → suggest updating artifacts
    - A task needs work beyond what the spec and tasks describe, or you are tempted to drop, narrow, defer, or accept exceptions to specified behavior to make it fit → surface the added scope and ask; do not absorb it silently
-   - Error or blocker encountered → report and wait for guidance
+   - A blocker remains after investigation and attempted fixes → report what you tried and what input or action is needed
    - User interrupts
 
 7. **On completion or pause, show status**
@@ -183,10 +185,10 @@ What would you like to do?
 - Keep going through tasks until done or blocked
 - Always read context files before starting (from the apply instructions output)
 - If task is ambiguous, pause and ask before implementing
-- If implementation reveals issues, pause and suggest artifact updates
+- If implementation reveals a requirements or design issue, pause and suggest artifact updates
 - Keep code changes minimal and scoped to each task
 - Update task checkbox immediately after completing each task
-- Pause on errors, blockers, or unclear requirements - don't guess
+- Investigate and attempt to fix development errors before escalating; pause on unresolved blockers or unclear requirements - don't guess requirements
 - When a task needs work beyond what the spec describes, surface the added scope and pause - never silently narrow, defer, or simplify away specified behavior
 - Only mark a task `- [x]` when its specified behavior is fully implemented, not when it is partially done or deferred
 - Use contextFiles from CLI output, don't assume specific file names
